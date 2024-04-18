@@ -4,8 +4,9 @@ using UnityEngine;
 
 /* FILE HEADER
 *  Edited by: Chase Morgan
-*  Last Updated: 04/11/2024
-*  Script Description: Handles the base enemy
+*  Edited by: Conner Zepeda
+*  Last Updated: 04/18/2024
+*  Script Description: Implementing the base enemy behavior for all enemies to inherit
 */
 
 public abstract class BaseEnemy : MonoBehaviour, IDamageable
@@ -30,10 +31,8 @@ public abstract class BaseEnemy : MonoBehaviour, IDamageable
         {
             if (hitColliders[i].CompareTag("Player"))
             {
-                Debug.Log("Player detected");
                 transform.position = Vector3.MoveTowards(transform.position, hitColliders[i].transform.position, moveRange);
             }
-
         }
     }
     public void Damage(float amount)
