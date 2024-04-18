@@ -37,6 +37,40 @@ public class PlayerController : MonoBehaviour
     public void Move(InputAction.CallbackContext context)
     {
         moveValue = context.ReadValue<Vector2>();
+        if (moveValue == Vector2.up)
+        {
+            transform.rotation = Quaternion.Euler(0, 0, 0);
+        }
+        else if (moveValue == Vector2.down)
+        {
+            transform.rotation = Quaternion.Euler(0, 180, 0);
+        }
+        else if (moveValue == Vector2.left)
+        {
+            transform.rotation = Quaternion.Euler(0, -90, 0);
+        }
+        else if (moveValue == Vector2.right)
+        {
+            transform.rotation = Quaternion.Euler(0, 90, 0);
+        }
+        else if (moveValue == new Vector2(.71f, .71f))
+        {
+            transform.rotation = Quaternion.Euler(0, 45, 0);
+        }
+        else if (moveValue == new Vector2(-.71f, .71f))
+        {
+            transform.rotation = Quaternion.Euler(0, -45, 0);
+        }
+        else if (moveValue == new Vector2(-.71f, -.71f))
+        {
+            transform.rotation = Quaternion.Euler(0, -135, 0);
+        }
+        else if (moveValue == new Vector2(.71f, -.71f))
+        {
+            transform.rotation = Quaternion.Euler(0, 135, 0);
+        }
+
+        Debug.Log(transform.rotation);
     }
 
     public void Attack1(InputAction.CallbackContext context)
