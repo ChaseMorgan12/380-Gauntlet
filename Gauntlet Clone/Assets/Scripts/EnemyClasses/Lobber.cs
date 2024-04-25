@@ -2,15 +2,17 @@ using System.Collections;
 using UnityEngine;
 
 /* FILE HEADER
-*  Edited by: Chase Morgan
-*  Edited by: Conner Zepeda
+*  Edited by: Chase Morgan, Conner Zepeda
 *  Last Updated: 04/18/2024
 *  Script Description: Implementing the Lobber enemy behavior
 */
 
 public class Lobber : BaseEnemy
 {
+    public GameObject rock;
+
     private float rockRange = 7f;
+    private float rockVelocity = 7f;
     private bool inRockRange = false;
     private bool canThrowRock = true;
 
@@ -37,8 +39,11 @@ public class Lobber : BaseEnemy
     }
     private void ThrowRock()
     {
-        Debug.Log("Throwing rock");
         //instansiate rock prefab towards player
+        Debug.Log("Throwing rock");
+        GameObject rockProj = Instantiate(rock, transform.position, transform.rotation);
+        rockProj.GetComponent<Rigidbody>().velocity = transform.forward * rockVelocity;
+        StartCoroutine(rockDestroyTimer(rockProj));
     }
     private bool PlayerInRockRange()
     {
@@ -47,6 +52,7 @@ public class Lobber : BaseEnemy
         {
             if (hitColliders[i].CompareTag("Player")) //can throw rock towards player if player is found in range
             {
+                transform.LookAt(hitColliders[i].transform);
                  return true;
             }
         }
@@ -58,5 +64,10 @@ public class Lobber : BaseEnemy
         ThrowRock();
         yield return new WaitForSeconds(2f);
         canThrowRock = true;
+    }
+    private IEnumerator rockDestroyTimer(GameObject killRock)
+    {
+        yield return new WaitForSeconds(2f);
+        Destroy(killRock);
     }
 }

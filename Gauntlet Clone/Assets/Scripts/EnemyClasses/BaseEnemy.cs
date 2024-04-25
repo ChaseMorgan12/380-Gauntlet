@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /* FILE HEADER
-*  Edited by: Chase Morgan
-*  Edited by: Conner Zepeda
+*  Edited by: Chase Morgan, Conner Zepeda
 *  Last Updated: 04/18/2024
 *  Script Description: Implementing the base enemy behavior for all enemies to inherit
 */
@@ -31,6 +30,7 @@ public abstract class BaseEnemy : MonoBehaviour, IDamageable
         {
             if (hitColliders[i].CompareTag("Player"))
             {
+                transform.LookAt(hitColliders[i].transform);
                 transform.position = Vector3.MoveTowards(transform.position, hitColliders[i].transform.position, moveRange);
             }
         }
