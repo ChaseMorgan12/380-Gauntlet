@@ -8,9 +8,9 @@ using UnityEngine;
 *  Script Description:
 */
 
-public interface IDamageable
+public abstract class Damageable : MonoBehaviour
 {
     public float Health { get; protected set; }
 
-    public void Damage(float amount);
+    public abstract void Damage(float amount);
 }
