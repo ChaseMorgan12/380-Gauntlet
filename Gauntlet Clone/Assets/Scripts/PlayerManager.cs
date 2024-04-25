@@ -15,6 +15,8 @@ public class PlayerManager : Singleton<PlayerManager>
 {
     [SerializeField] private GameObject _elf, _wizard, _warrior, _valkyrie;
 
+    private bool _choosingPlayer = false;
+
     [HideInInspector]
     public List<BasePlayer> players = new();
 
@@ -37,5 +39,22 @@ public class PlayerManager : Singleton<PlayerManager>
     private void PlayerLeft(PlayerInput plr)
     {
         players.Remove(plr.GetComponent<BasePlayer>());
+    }
+
+    private void ChoosePlayer()
+    {
+        _choosingPlayer = true;
+    }
+
+    //REMOVE FOR TESTING ONLY!!!
+
+    private void OnGUI()
+    {
+        if (_choosingPlayer)
+        {
+            Time.timeScale = 0;
+
+            
+        }
     }
 }
