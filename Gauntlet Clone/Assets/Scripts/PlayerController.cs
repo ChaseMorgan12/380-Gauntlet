@@ -31,46 +31,54 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        GetComponent<Rigidbody>().MovePosition(transform.position + new Vector3(moveValue.x, 0.0f, moveValue.y) * playerSpeed * Time.deltaTime);
+        GetComponent<Rigidbody>().MovePosition(transform.position + playerSpeed * Time.deltaTime * new Vector3(moveValue.x, 0.0f, moveValue.y));
     }
 
     public void Move(InputAction.CallbackContext context)
     {
         moveValue = context.ReadValue<Vector2>();
-        if (moveValue == Vector2.up)
-        {
-            transform.rotation = Quaternion.Euler(0, 0, 0);
-        }
-        else if (moveValue == Vector2.down)
-        {
-            transform.rotation = Quaternion.Euler(0, 180, 0);
-        }
-        else if (moveValue == Vector2.left)
-        {
-            transform.rotation = Quaternion.Euler(0, -90, 0);
-        }
-        else if (moveValue == Vector2.right)
-        {
-            transform.rotation = Quaternion.Euler(0, 90, 0);
-        }
-        else if (moveValue == new Vector2(.71f, .71f))
-        {
-            transform.rotation = Quaternion.Euler(0, 45, 0);
-        }
-        else if (moveValue == new Vector2(-.71f, .71f))
-        {
-            transform.rotation = Quaternion.Euler(0, -45, 0);
-        }
-        else if (moveValue == new Vector2(-.71f, -.71f))
-        {
-            transform.rotation = Quaternion.Euler(0, -135, 0);
-        }
-        else if (moveValue == new Vector2(.71f, -.71f))
-        {
-            transform.rotation = Quaternion.Euler(0, 135, 0);
-        }
 
-        Debug.Log(transform.rotation);
+        if (context.performed)
+        {
+            switch (moveValue) //This sucks, and works...
+            {
+                case Vector2 when moveValue == Vector2.up:
+                    Debug.Log("Forward");
+                    transform.rotation = Quaternion.Euler(0, 0, 0);
+                    break;
+                case Vector2 when moveValue == Vector2.down:
+                    Debug.Log("Backward");
+                    transform.rotation = Quaternion.Euler(0, 180, 0);
+                    break;
+                case Vector2 when moveValue == Vector2.right:
+                    Debug.Log("Right");
+                    transform.rotation = Quaternion.Euler(0, 90, 0);
+                    break;
+                case Vector2 when moveValue == Vector2.left:
+                    Debug.Log("Left");
+                    transform.rotation = Quaternion.Euler(0, -90, 0);
+                    break;
+                case Vector2 when moveValue.normalized == new Vector2(Mathf.Sqrt(.5f), Mathf.Sqrt(.5f)):
+                    Debug.Log("Angled Right");
+                    transform.rotation = Quaternion.Euler(0, 45, 0);
+                    break;
+                case Vector2 when moveValue.normalized == new Vector2(Mathf.Sqrt(.5f), -Mathf.Sqrt(.5f)):
+                    Debug.Log("Angled Negative Right");
+                    transform.rotation = Quaternion.Euler(0, 135, 0);
+                    break;
+                case Vector2 when moveValue.normalized == new Vector2(-Mathf.Sqrt(.5f), Mathf.Sqrt(.5f)):
+                    Debug.Log("Angled Left");
+                    transform.rotation = Quaternion.Euler(0, -45, 0);
+                    break;
+                case Vector2 when moveValue.normalized == new Vector2(-Mathf.Sqrt(.5f), -Mathf.Sqrt(.5f)):
+                    Debug.Log("Angled Negative Left");
+                    transform.rotation = Quaternion.Euler(0, -135, 0);
+                    break;
+                default:
+                    Debug.LogWarning("No movement direction matched the input, ignoring"); //Just in case (there really should never be a situation where this happens, unless we f up)
+                    return;
+            }
+        }
     }
 
     public void Attack1(InputAction.CallbackContext context)

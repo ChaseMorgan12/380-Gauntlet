@@ -25,7 +25,7 @@ public class BasePlayer : Subject
     [SerializeField] protected float _meleeRange = 2f;
     [SerializeField] protected float _meleeDamage = 1f;
 
-    protected PlayerData _playerData;
+    protected PlayerData _playerData; //Player data needs to be implemented -Chase
 
     protected virtual void Awake()
     {
@@ -54,10 +54,21 @@ public class BasePlayer : Subject
 
         foreach (Collider col in colliders)
         {
+            Debug.Log(col.name);
             if (col.tag == "Enemy")
             {
                 Debug.Log("Hit enemy");
             }
+        }
+    }
+
+    public virtual void TakeDamage(float amount)
+    {
+        _playerData.health -= amount;
+
+        if (_playerData.health <= 0)
+        {
+            Debug.Log(gameObject.name + " has died!");
         }
     }
 }
