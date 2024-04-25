@@ -10,7 +10,8 @@ using UnityEngine;
 
 public abstract class Damageable : MonoBehaviour
 {
-    public float Health { get; protected set; }
+    [SerializeField] protected float _health = 10;
+    public float Health => _health;
 
     public abstract void Damage(float amount);
 }
