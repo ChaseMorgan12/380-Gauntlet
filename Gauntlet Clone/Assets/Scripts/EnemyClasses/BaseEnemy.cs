@@ -12,6 +12,8 @@ public abstract class BaseEnemy : MonoBehaviour, IDamageable
 {
     protected float damage, speed, attackRange, attackCooldown, detectionRange, moveRange;
 
+    protected int enemyLevel;
+
     float IDamageable.Health { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
     
     public virtual void Attack1()
