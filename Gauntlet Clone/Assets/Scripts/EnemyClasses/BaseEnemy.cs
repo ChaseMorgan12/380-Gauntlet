@@ -11,7 +11,9 @@ using UnityEngine;
 public abstract class BaseEnemy : Damageable
 {
     protected float damage, speed, attackRange, attackCooldown, detectionRange, moveRange;
-    
+
+    protected int enemyLevel;
+
     public virtual void Attack1()
     {
 
@@ -21,7 +23,6 @@ public abstract class BaseEnemy : Damageable
     {
 
     }
-
     public virtual void MoveTowardsPlayer()
     {
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, detectionRange);
