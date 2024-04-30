@@ -27,4 +27,9 @@ public class GameManager : Singleton<GameManager>, IObserver
     {
 
     }
+
+    public void ClearEnemies()
+    {
+        Debug.Log("Clearing enemies");
+    }
 }

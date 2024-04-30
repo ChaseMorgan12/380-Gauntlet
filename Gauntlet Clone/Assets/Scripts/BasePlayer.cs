@@ -12,6 +12,21 @@ public class BasePlayer : Subject
 {
     public PlayerType playerType;
 
+    private int _keys = 0;
+
+    public int Keys
+    {
+        get
+        {
+            return _keys;
+        }
+        set
+        {
+            _keys = value;
+            Debug.Log(_keys);
+        }
+    }
+
     [Header("Projectile Info")]
     [SerializeField] protected GameObject _playerProjectile;
     [SerializeField] protected float _projectileSpeed = 10f;
@@ -29,7 +44,7 @@ public class BasePlayer : Subject
 
     protected virtual void Awake()
     {
-
+        _playerData = new PlayerData();
     }
 
     public virtual void Attack1() //Ranged
@@ -65,6 +80,8 @@ public class BasePlayer : Subject
     public virtual void TakeDamage(float amount)
     {
         _playerData.health -= amount;
+
+        Debug.Log(_playerData.health);
 
         if (_playerData.health <= 0)
         {
