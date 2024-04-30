@@ -633,12 +633,17 @@ PrefabInstance:
         type: 3}
       propertyPath: enemy
       value: 
-      objectReference: {fileID: 1826073590196169055, guid: 25240609961888141bf573d7bd1d69ea,
+      objectReference: {fileID: 4764380076149239154, guid: 12c100071af0f9947bc17b33cd8501df,
         type: 3}
     - target: {fileID: 3120537940614726691, guid: 89fb650ce3806c84a8d2f2bd1c9ec783,
         type: 3}
       propertyPath: _health
       value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 3120537940614726691, guid: 89fb650ce3806c84a8d2f2bd1c9ec783,
+        type: 3}
+      propertyPath: spawnInterval
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 3787504385636150556, guid: 89fb650ce3806c84a8d2f2bd1c9ec783,
         type: 3}
