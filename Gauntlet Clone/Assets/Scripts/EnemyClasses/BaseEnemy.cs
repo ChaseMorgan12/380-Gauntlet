@@ -8,9 +8,13 @@ using UnityEngine;
 *  Script Description: Implementing the base enemy behavior for all enemies to inherit
 */
 
-public abstract class BaseEnemy : Damageable
+public abstract class BaseEnemy : MonoBehaviour, IDamageable
 {
     protected float damage, speed, attackRange, attackCooldown, detectionRange, moveRange;
+
+    protected int enemyLevel;
+
+    float IDamageable.Health { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
     
     public virtual void Attack1()
     {
@@ -21,7 +25,6 @@ public abstract class BaseEnemy : Damageable
     {
 
     }
-
     public virtual void MoveTowardsPlayer()
     {
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, detectionRange);
@@ -34,7 +37,7 @@ public abstract class BaseEnemy : Damageable
             }
         }
     }
-    public override void Damage(float amount)
+    public void Damage(float amount)
     {
         throw new System.NotImplementedException();
     }
