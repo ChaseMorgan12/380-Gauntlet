@@ -13,7 +13,6 @@ public class Lobber : BaseEnemy
 
     private float rockRange = 7f;
     private float rockVelocity = 7f;
-    private bool inRockRange = false;
     private bool canThrowRock = true;
 
     private void Awake()
