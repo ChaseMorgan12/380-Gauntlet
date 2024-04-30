@@ -8,14 +8,12 @@ using UnityEngine;
 *  Script Description: Implementing the base enemy behavior for all enemies to inherit
 */
 
-public abstract class BaseEnemy : MonoBehaviour, IDamageable
+public abstract class BaseEnemy : Damageable
 {
     protected float damage, speed, attackRange, attackCooldown, detectionRange, moveRange;
 
     protected int enemyLevel;
 
-    float IDamageable.Health { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
-    
     public virtual void Attack1()
     {
 
@@ -37,7 +35,7 @@ public abstract class BaseEnemy : MonoBehaviour, IDamageable
             }
         }
     }
-    public void Damage(float amount)
+    public override void Damage(float amount)
     {
         throw new System.NotImplementedException();
     }
