@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /* FILE HEADER
-*  Edited by: Chase Morgan
-*  Last Updated: 00/00/0000
-*  Script Description:
+*  Edited by: Chase Morgan, Conner Zepeda
+*  Last Updated: 05/02/20024
+*  Script Description: Handles behavior for the Socerer Enemy
 */
 
 public class Sorcerer : BaseEnemy
