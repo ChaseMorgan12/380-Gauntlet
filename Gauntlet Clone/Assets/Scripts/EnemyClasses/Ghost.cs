@@ -50,4 +50,5 @@ public class Ghost : BaseEnemy
         Destroy(this.gameObject);
         Debug.Log("enemy got hit, destroyed: " + gameObject);
     }
+
 }

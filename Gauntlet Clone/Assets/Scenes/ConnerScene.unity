@@ -618,18 +618,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &118527770728814031
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8685088062812187184}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c36ffdf4173707849a2d2dca3372f174, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!33 &2963660328509146716
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -728,7 +716,7 @@ GameObject:
   - component: {fileID: 2963660328509146716}
   - component: {fileID: 7570867912813254626}
   - component: {fileID: 3302814834443835240}
-  - component: {fileID: 118527770728814031}
+  - component: {fileID: 8685088062812187185}
   m_Layer: 0
   m_Name: Grunt
   m_TagString: Untagged
@@ -736,6 +724,19 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &8685088062812187185
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8685088062812187184}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c4b3e1482ef26e37809fbcd4138ed31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rock: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
