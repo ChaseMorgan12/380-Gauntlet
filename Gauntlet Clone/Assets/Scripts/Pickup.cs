@@ -13,6 +13,7 @@ public class Pickup : MonoBehaviour
     [SerializeField] private PickupType _pickupType;
 
     [SerializeField] private float healthGiven = 10;
+    [SerializeField] private int treasureAmount = 100;
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.transform.CompareTag("Player"))
@@ -30,6 +31,9 @@ public class Pickup : MonoBehaviour
                 case PickupType.Key:
                     player.Keys++;
                     break;
+                case PickupType.Treasure:
+                    player.IncreasePoints(treasureAmount);
+                    break;
                 default:
                     break;
             }
@@ -43,5 +47,6 @@ public enum PickupType
 {
     Food,
     Potion,
-    Key
+    Key,
+    Treasure
 }

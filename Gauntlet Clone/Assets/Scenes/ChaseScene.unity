@@ -518,6 +518,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _pickupType: 2
   healthGiven: 10
+  treasureAmount: 100
 --- !u!65 &785191039
 BoxCollider:
   m_ObjectHideFlags: 0
