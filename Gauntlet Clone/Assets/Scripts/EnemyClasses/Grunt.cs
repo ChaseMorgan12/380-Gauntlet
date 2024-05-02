@@ -3,22 +3,36 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /* FILE HEADER
-*  Edited by: Chase Morgan
-*  Last Updated: 00/00/0000
-*  Script Description:
+*  Edited by: Chase Morgan, Conner Zepeda
+*  Last Updated: 05/02/20024
+*  Script Description: Handles behavior for the Grunt Enemy
 */
 
 public class Grunt : BaseEnemy
 {
     public GameObject rock;
 
-    private float rockRange = 7f;
-    private float rockVelocity = 7f;
-    private bool inRockRange = false;
-    private bool canThrowRock = true;
+    private float clubRange = 1.7f;
+    private bool canSwingClub = true;
 
     private void Awake()
     {
+        //Based on ememy level, damage will change
+        switch (enemyLevel)
+        {
+            case 1:
+                damage = 5;
+                break;
+            case 2:
+                damage = 8;
+
+                break;
+            case 3:
+                damage = 10;
+                break;
+            default:
+                break;
+        }
         speed = 2f;
         detectionRange = 25f;
         moveRange = 0.1f;
@@ -26,11 +40,11 @@ public class Grunt : BaseEnemy
 
     private void FixedUpdate()
     {
-        if (PlayerInRockRange())
+        if (PlayerInClubRange())
         {
-            if (canThrowRock)
+            if (canSwingClub)
             {
-                StartCoroutine(rockTimer());
+                StartCoroutine(SwingClubTimer());
             }
         }
         else
@@ -38,20 +52,16 @@ public class Grunt : BaseEnemy
             MoveTowardsPlayer();
         }
     }
-    private void ThrowRock()
+    private void SwingClub()
     {
-        //instansiate rock prefab towards player
-        Debug.Log("Throwing rock");
-        GameObject rockProj = Instantiate(rock, transform.position, transform.rotation);
-        rockProj.GetComponent<Rigidbody>().velocity = transform.forward * rockVelocity;
-        StartCoroutine(rockDestroyTimer(rockProj));
+        Debug.Log("Swinging Club");
     }
-    private bool PlayerInRockRange()
+    private bool PlayerInClubRange()
     {
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, rockRange);
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, clubRange);
         for (int i = 0; i < hitColliders.Length; i++)
         {
-            if (hitColliders[i].CompareTag("Player")) //can throw rock towards player if player is found in range
+            if (hitColliders[i].CompareTag("Player")) //can swing club towards player if player is found in range
             {
                 transform.LookAt(hitColliders[i].transform);
                 return true;
@@ -59,20 +69,12 @@ public class Grunt : BaseEnemy
         }
         return false;
     }
-    private IEnumerator rockTimer()
+    private IEnumerator SwingClubTimer()
     {
-        canThrowRock = false;
-        ThrowRock();
+        canSwingClub = false;
+        SwingClub();
         yield return new WaitForSeconds(2f);
-        canThrowRock = true;
+        canSwingClub = true;
     }
-    private IEnumerator rockDestroyTimer(GameObject killRock)
-    {
-        yield return new WaitForSeconds(2f);
-        Destroy(killRock);
-    }
-    private void ClubAttack()
-    {
-
-    }
+    
 }

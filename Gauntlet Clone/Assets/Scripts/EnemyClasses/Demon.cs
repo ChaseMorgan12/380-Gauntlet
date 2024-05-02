@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /* FILE HEADER
-*  Edited by: Chase Morgan
-*  Last Updated: 00/00/0000
-*  Script Description:
+*  Edited by: Chase Morgan, Conner Zepeda
+*  Last Updated: 05/02/20024
+*  Script Description: Handles behavior for the Demon Enemy
 */
 
 public class Demon : BaseEnemy
@@ -20,6 +20,22 @@ public class Demon : BaseEnemy
 
     private void Awake()
     {
+        //Based on ememy level, damage will change
+        switch (enemyLevel)
+        {
+            case 1:
+                damage = 5;
+                break;
+            case 2:
+                damage = 8;
+
+                break;
+            case 3:
+                damage = 10;
+                break;
+            default:
+                break;
+        }
         speed = 2f;
         detectionRange = 25f;
         moveRange = 0.1f;
