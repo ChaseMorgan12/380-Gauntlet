@@ -70,7 +70,7 @@ public class BasePlayer : Subject
         foreach (Collider col in colliders)
         {
             Debug.Log(col.name);
-            if (col.tag == "Enemy")
+            if (col.CompareTag("Enemy"))
             {
                 Debug.Log("Hit enemy");
             }
@@ -87,5 +87,10 @@ public class BasePlayer : Subject
         {
             Debug.Log(gameObject.name + " has died!");
         }
+    }
+
+    public virtual void IncreasePoints(int amount)
+    {
+        _playerData.currentScore += amount;
     }
 }
