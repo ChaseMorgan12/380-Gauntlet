@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 /* FILE HEADER
 *  Edited by: Chase Morgan
@@ -10,6 +11,7 @@ using UnityEngine;
 
 public class BasePlayer : Subject
 {
+
     public PlayerType playerType;
 
     private int _keys = 0;
@@ -40,15 +42,16 @@ public class BasePlayer : Subject
     [SerializeField] protected float _meleeRange = 2f;
     [SerializeField] protected float _meleeDamage = 1f;
 
-    protected PlayerData _playerData; //Player data needs to be implemented -Chase
+    public PlayerData PlayerData { get; protected set; } //Player data needs to be implemented -Chase
 
     protected virtual void Awake()
     {
-        _playerData = new PlayerData();
+        PlayerData = new PlayerData();
     }
 
     public virtual void Attack1() //Ranged
     {
+        Debug.Log(_playerProjectile);
         GameObject proj = Instantiate(_playerProjectile, transform.position, Quaternion.identity);
 
         proj.GetComponent<Rigidbody>().velocity = transform.forward * _projectileSpeed;
@@ -79,11 +82,11 @@ public class BasePlayer : Subject
 
     public virtual void TakeDamage(float amount)
     {
-        _playerData.health -= amount;
+        PlayerData.Health -= amount;
 
-        Debug.Log(_playerData.health);
+        Debug.Log(PlayerData.Health);
 
-        if (_playerData.health <= 0)
+        if (PlayerData.Health <= 0)
         {
             Debug.Log(gameObject.name + " has died!");
         }
@@ -91,6 +94,21 @@ public class BasePlayer : Subject
 
     public virtual void IncreasePoints(int amount)
     {
-        _playerData.currentScore += amount;
+        PlayerData.CurrentScore += amount;
+    }
+
+    /// <summary>
+    /// It's like a constructor, except it's not ;)
+    /// </summary>
+    /// <param name="info">The info to "construct" with</param>
+    public virtual void ConstructWithInfo(PlayerInfo info)
+    {
+        _playerProjectile = info.playerProjectile;
+        _projectileSpeed = info.projectileSpeed;
+        _projectileDamage = info.projectileDamage;
+        _magicProjectile = info.magicProjectile;
+        _magicDamage = info.magicDamage;
+        _meleeDamage = info.meleeDamage;
+        _meleeRange = info.meleeRange;
     }
 }

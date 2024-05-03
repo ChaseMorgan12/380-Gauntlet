@@ -14,10 +14,9 @@ GameObject:
   - component: {fileID: 3629792382062864899}
   - component: {fileID: 2834851183659334257}
   - component: {fileID: -9083610745771262626}
-  - component: {fileID: -5876217300818647807}
   m_Layer: 0
-  m_Name: Wizard
-  m_TagString: Untagged
+  m_Name: BasePlayer
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -213,28 +212,12 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 3344babe-009b-4446-a6ac-3fe151e542dd
     m_ActionName: Controls/Attack3[/Keyboard/e]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 87d81a89-80a7-4efa-aca2-f2a043f8b7b8
+    m_ActionName: ChoosingCharacter/ChoosePlayer[/Keyboard/upArrow,/XInputControllerWindows/dpad/up,/Keyboard/downArrow,/XInputControllerWindows/dpad/down,/Keyboard/leftArrow,/XInputControllerWindows/dpad/left,/Keyboard/rightArrow,/XInputControllerWindows/dpad/right]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
-  m_DefaultActionMap: Controls
+  m_DefaultActionMap: ChoosingCharacter
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
---- !u!114 &-5876217300818647807
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4417991804209832600}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b0c3078e7338e2498834940237152682, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerType: 1
-  _playerProjectile: {fileID: 0}
-  _projectileSpeed: 10
-  _projectileDamage: 1
-  _magicProjectile: {fileID: 0}
-  _magicDamage: 1
-  _meleeRange: 2
-  _meleeDamage: 1

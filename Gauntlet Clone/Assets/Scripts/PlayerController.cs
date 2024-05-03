@@ -22,11 +22,7 @@ public class PlayerController : MonoBehaviour
         {
             Rigidbody rb = gameObject.AddComponent<Rigidbody>();
             rb.constraints = RigidbodyConstraints.FreezeRotation;
-        }  
-
-        _attack1 = new Attack1(GetComponent<BasePlayer>());
-        _attack2 = new Attack2(GetComponent<BasePlayer>());
-        _attack3 = new Attack3(GetComponent<BasePlayer>());
+        }
     }
 
     private void Update()
@@ -43,35 +39,35 @@ public class PlayerController : MonoBehaviour
             switch (moveValue) //This sucks, and works...
             {
                 case Vector2 when moveValue == Vector2.up:
-                    Debug.Log("Forward");
+                    //Debug.Log("Forward");
                     transform.rotation = Quaternion.Euler(0, 0, 0);
                     break;
                 case Vector2 when moveValue == Vector2.down:
-                    Debug.Log("Backward");
+                    //Debug.Log("Backward");
                     transform.rotation = Quaternion.Euler(0, 180, 0);
                     break;
                 case Vector2 when moveValue == Vector2.right:
-                    Debug.Log("Right");
+                    //Debug.Log("Right");
                     transform.rotation = Quaternion.Euler(0, 90, 0);
                     break;
                 case Vector2 when moveValue == Vector2.left:
-                    Debug.Log("Left");
+                    //Debug.Log("Left");
                     transform.rotation = Quaternion.Euler(0, -90, 0);
                     break;
                 case Vector2 when moveValue.normalized == new Vector2(Mathf.Sqrt(.5f), Mathf.Sqrt(.5f)):
-                    Debug.Log("Angled Right");
+                    //Debug.Log("Angled Right");
                     transform.rotation = Quaternion.Euler(0, 45, 0);
                     break;
                 case Vector2 when moveValue.normalized == new Vector2(Mathf.Sqrt(.5f), -Mathf.Sqrt(.5f)):
-                    Debug.Log("Angled Negative Right");
+                    //Debug.Log("Angled Negative Right");
                     transform.rotation = Quaternion.Euler(0, 135, 0);
                     break;
                 case Vector2 when moveValue.normalized == new Vector2(-Mathf.Sqrt(.5f), Mathf.Sqrt(.5f)):
-                    Debug.Log("Angled Left");
+                   // Debug.Log("Angled Left");
                     transform.rotation = Quaternion.Euler(0, -45, 0);
                     break;
                 case Vector2 when moveValue.normalized == new Vector2(-Mathf.Sqrt(.5f), -Mathf.Sqrt(.5f)):
-                    Debug.Log("Angled Negative Left");
+                    //Debug.Log("Angled Negative Left");
                     transform.rotation = Quaternion.Euler(0, -135, 0);
                     break;
                 default:
@@ -79,6 +75,15 @@ public class PlayerController : MonoBehaviour
                     return;
             }
         }
+    }
+
+    public void SetupCommands()
+    {
+        BasePlayer player = GetComponent<BasePlayer>();
+        //Debug.Log(player.GetType().ToString());
+        _attack1 = new Attack1(player); //Command pattern my beloved <3
+        _attack2 = new Attack2(player);
+        _attack3 = new Attack3(player);
     }
 
     public void Attack1(InputAction.CallbackContext context)

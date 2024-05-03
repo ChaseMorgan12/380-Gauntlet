@@ -352,6 +352,122 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""ChoosingCharacter"",
+            ""id"": ""61f14ec4-e6b0-4d82-badd-0ae2a2c91521"",
+            ""actions"": [
+                {
+                    ""name"": ""ChoosePlayer"",
+                    ""type"": ""Value"",
+                    ""id"": ""87d81a89-80a7-4efa-aca2-f2a043f8b7b8"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": ""PlayerVector2"",
+                    ""id"": ""267768db-4f54-4ce6-98df-8f2c384b0483"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ChoosePlayer"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""54a302fa-2e7b-421f-8209-8d48adfa3369"",
+                    ""path"": ""<Keyboard>/upArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ChoosePlayer"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""21ab5753-3d36-4771-b335-102f6e6ec7f6"",
+                    ""path"": ""<Gamepad>/dpad/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ChoosePlayer"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""024bb640-0ff0-4714-a522-f8faae336220"",
+                    ""path"": ""<Keyboard>/downArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ChoosePlayer"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""19db68eb-6fca-48ae-9b9c-9013678c1ae1"",
+                    ""path"": ""<Gamepad>/dpad/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ChoosePlayer"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""52bf110e-ecab-426f-8f47-a663a969d066"",
+                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ChoosePlayer"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""f2f2ed8d-cf00-47b9-8db3-cbc2c3fe33d5"",
+                    ""path"": ""<Gamepad>/dpad/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ChoosePlayer"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""6f8bb121-7ebd-491f-9574-b4156c652c07"",
+                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ChoosePlayer"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""e60c2f14-3c3c-4fc6-b69d-114d98d155bc"",
+                    ""path"": ""<Gamepad>/dpad/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ChoosePlayer"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -362,6 +478,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Controls_Attack1 = m_Controls.FindAction("Attack1", throwIfNotFound: true);
         m_Controls_Attack2 = m_Controls.FindAction("Attack2", throwIfNotFound: true);
         m_Controls_Attack3 = m_Controls.FindAction("Attack3", throwIfNotFound: true);
+        // ChoosingCharacter
+        m_ChoosingCharacter = asset.FindActionMap("ChoosingCharacter", throwIfNotFound: true);
+        m_ChoosingCharacter_ChoosePlayer = m_ChoosingCharacter.FindAction("ChoosePlayer", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -489,11 +608,61 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         }
     }
     public ControlsActions @Controls => new ControlsActions(this);
+
+    // ChoosingCharacter
+    private readonly InputActionMap m_ChoosingCharacter;
+    private List<IChoosingCharacterActions> m_ChoosingCharacterActionsCallbackInterfaces = new List<IChoosingCharacterActions>();
+    private readonly InputAction m_ChoosingCharacter_ChoosePlayer;
+    public struct ChoosingCharacterActions
+    {
+        private @PlayerControls m_Wrapper;
+        public ChoosingCharacterActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @ChoosePlayer => m_Wrapper.m_ChoosingCharacter_ChoosePlayer;
+        public InputActionMap Get() { return m_Wrapper.m_ChoosingCharacter; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(ChoosingCharacterActions set) { return set.Get(); }
+        public void AddCallbacks(IChoosingCharacterActions instance)
+        {
+            if (instance == null || m_Wrapper.m_ChoosingCharacterActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_ChoosingCharacterActionsCallbackInterfaces.Add(instance);
+            @ChoosePlayer.started += instance.OnChoosePlayer;
+            @ChoosePlayer.performed += instance.OnChoosePlayer;
+            @ChoosePlayer.canceled += instance.OnChoosePlayer;
+        }
+
+        private void UnregisterCallbacks(IChoosingCharacterActions instance)
+        {
+            @ChoosePlayer.started -= instance.OnChoosePlayer;
+            @ChoosePlayer.performed -= instance.OnChoosePlayer;
+            @ChoosePlayer.canceled -= instance.OnChoosePlayer;
+        }
+
+        public void RemoveCallbacks(IChoosingCharacterActions instance)
+        {
+            if (m_Wrapper.m_ChoosingCharacterActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IChoosingCharacterActions instance)
+        {
+            foreach (var item in m_Wrapper.m_ChoosingCharacterActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_ChoosingCharacterActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public ChoosingCharacterActions @ChoosingCharacter => new ChoosingCharacterActions(this);
     public interface IControlsActions
     {
         void OnMove(InputAction.CallbackContext context);
         void OnAttack1(InputAction.CallbackContext context);
         void OnAttack2(InputAction.CallbackContext context);
         void OnAttack3(InputAction.CallbackContext context);
+    }
+    public interface IChoosingCharacterActions
+    {
+        void OnChoosePlayer(InputAction.CallbackContext context);
     }
 }
