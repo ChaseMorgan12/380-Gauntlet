@@ -10,8 +10,6 @@ using UnityEngine;
 
 public class Grunt : BaseEnemy
 {
-    public GameObject rock;
-
     private float clubRange = 1.7f;
     private bool canSwingClub = true;
 

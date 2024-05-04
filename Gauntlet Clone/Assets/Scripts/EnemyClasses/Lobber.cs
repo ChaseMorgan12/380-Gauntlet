@@ -9,6 +9,7 @@ using UnityEngine;
 
 public class Lobber : BaseEnemy
 {
+    //Initializing unique enemy variables
     public GameObject rock;
 
     private float runRange = 5f;
