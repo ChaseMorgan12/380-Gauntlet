@@ -35,7 +35,6 @@ public class PlayerManager : Singleton<PlayerManager>
 
     public void OnPlayerJoined(PlayerInput plr)
     {
-        players.Add(plr.GetComponent<BasePlayer>());
 
         plr.actionEvents[4].AddListener(ChoosePlayerWithButton); //Dirty code, honestly don't know why we are even using UnityEvents, they suck for this...
         //It also breaks randomly which is probably due to the fact that I have no damn clue what index it is if it changes
@@ -97,6 +96,7 @@ public class PlayerManager : Singleton<PlayerManager>
 
         plr.playerType = _playerChosen;
         plr.gameObject.GetComponent<PlayerController>().SetupCommands();
+        players.Add(plr);
 
         Time.timeScale = 1;
     }

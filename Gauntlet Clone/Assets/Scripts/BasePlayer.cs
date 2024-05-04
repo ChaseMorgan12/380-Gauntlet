@@ -42,7 +42,7 @@ public class BasePlayer : Subject
     [SerializeField] protected float _meleeRange = 2f;
     [SerializeField] protected float _meleeDamage = 1f;
 
-    public PlayerData PlayerData { get; protected set; } //Player data needs to be implemented -Chase
+    public PlayerData PlayerData { get; protected set; }
 
     protected virtual void Awake()
     {
