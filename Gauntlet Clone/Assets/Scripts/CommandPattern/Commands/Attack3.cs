@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 /* FILE HEADER
 *  Edited by: Chase Morgan
 *  Last Updated: 04/16/2024
@@ -19,6 +15,6 @@ public class Attack3 : Command
 
     public override void Execute()
     {
-       throw new System.NotImplementedException(GetType().Name + " has not been implemented yet");
+        _player.Attack3();
     }
 }

@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91a72eace9a325a459ff0a98887bcad7, type: 3}
+  m_Name: Warrior
+  m_EditorClassIdentifier: 
+  playerProjectile: {fileID: 6994662270318252375, guid: b14a704f05f80bb47a11eff3a76fc35c,
+    type: 3}
+  projectileSpeed: 10
+  projectileDamage: 1
+  magicProjectile: {fileID: 6994662270318252375, guid: 89d90cefa820c9e4da0c0cae0bada6c0,
+    type: 3}
+  magicDamage: 1
+  meleeRange: 2
+  meleeDamage: 1

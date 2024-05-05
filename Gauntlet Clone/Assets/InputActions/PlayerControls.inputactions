@@ -277,7 +277,7 @@
                 {
                     "name": "",
                     "id": "58f9547f-d84d-4199-b912-a24da42c97f5",
-                    "path": "<Mouse>/leftButton",
+                    "path": "<Keyboard>/space",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -299,7 +299,7 @@
                 {
                     "name": "",
                     "id": "370a5d17-e991-470f-85e1-82c9cf1f9ea4",
-                    "path": "<Mouse>/rightButton",
+                    "path": "<Keyboard>/q",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -328,6 +328,122 @@
                     "action": "Attack3",
                     "isComposite": false,
                     "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "ChoosingCharacter",
+            "id": "61f14ec4-e6b0-4d82-badd-0ae2a2c91521",
+            "actions": [
+                {
+                    "name": "ChoosePlayer",
+                    "type": "Value",
+                    "id": "87d81a89-80a7-4efa-aca2-f2a043f8b7b8",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "PlayerVector2",
+                    "id": "267768db-4f54-4ce6-98df-8f2c384b0483",
+                    "path": "2DVector",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ChoosePlayer",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "up",
+                    "id": "54a302fa-2e7b-421f-8209-8d48adfa3369",
+                    "path": "<Keyboard>/upArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ChoosePlayer",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "up",
+                    "id": "21ab5753-3d36-4771-b335-102f6e6ec7f6",
+                    "path": "<Gamepad>/dpad/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ChoosePlayer",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "024bb640-0ff0-4714-a522-f8faae336220",
+                    "path": "<Keyboard>/downArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ChoosePlayer",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "19db68eb-6fca-48ae-9b9c-9013678c1ae1",
+                    "path": "<Gamepad>/dpad/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ChoosePlayer",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "52bf110e-ecab-426f-8f47-a663a969d066",
+                    "path": "<Keyboard>/leftArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ChoosePlayer",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "f2f2ed8d-cf00-47b9-8db3-cbc2c3fe33d5",
+                    "path": "<Gamepad>/dpad/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ChoosePlayer",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "6f8bb121-7ebd-491f-9574-b4156c652c07",
+                    "path": "<Keyboard>/rightArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ChoosePlayer",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "e60c2f14-3c3c-4fc6-b69d-114d98d155bc",
+                    "path": "<Gamepad>/dpad/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ChoosePlayer",
+                    "isComposite": false,
+                    "isPartOfComposite": true
                 }
             ]
         }

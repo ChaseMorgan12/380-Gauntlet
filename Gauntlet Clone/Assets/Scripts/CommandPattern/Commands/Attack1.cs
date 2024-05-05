@@ -1,10 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 /* FILE HEADER
 *  Edited by: Chase Morgan
-*  Last Updated: 04/16/2024
+*  Last Updated: 04/18/2024
 *  Script Description: Handles the main attack of the player
 */
 
@@ -19,6 +15,6 @@ public class Attack1 : Command
 
     public override void Execute()
     {
-       throw new System.NotImplementedException(GetType().Name + " has not been implemented yet");
+        _player.Attack1();
     }
 }

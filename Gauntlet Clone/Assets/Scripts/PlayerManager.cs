@@ -1,17 +1,128 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.LowLevel;
+using UnityEngine.InputSystem.Users;
 
 /* FILE HEADER
 *  Edited by: Chase Morgan
-*  Last Updated: 00/00/0000
-*  Script Description:
+*  Last Updated: 05/02/2024
+*  Script Description: Manages all of the players in the current scene
 */
 
 public class PlayerManager : Singleton<PlayerManager>
 {
-    public BasePlayer[] player = new BasePlayer[4];
 
-    public event Action OnPlayerConnected;
+    private bool _choosingPlayer = false;
+
+    [SerializeField] private PlayerInfo _elf, _wizard, _warrior, _valkyrie; //Using these as templates, not really the best way, 
+
+    [HideInInspector]
+    public List<BasePlayer> players = new();
+
+    public static event Action<GameObject> PlayerConnected;
+
+    private PlayerType _playerChosen;
+    private bool _chosePlayer = false;
+
+    public override void Awake()
+    {
+        base.Awake();
+    }
+
+    public void OnPlayerJoined(PlayerInput plr)
+    {
+
+        plr.actionEvents[4].AddListener(ChoosePlayerWithButton); //Dirty code, honestly don't know why we are even using UnityEvents, they suck for this...
+        //It also breaks randomly which is probably due to the fact that I have no damn clue what index it is if it changes
+
+        PlayerConnected?.Invoke(plr.gameObject);
+        StartCoroutine(ChoosePlayer(plr));
+    }
+
+    public void OnPlayerLeft(PlayerInput plr)
+    {
+        players.Remove(plr.GetComponent<BasePlayer>());
+    }
+
+    private IEnumerator ChoosePlayer(PlayerInput player)
+    {
+        yield return new WaitUntil(() => !_choosingPlayer);
+
+        _choosingPlayer = true;
+
+        Time.timeScale = 0;
+
+        do
+        {
+            yield return new WaitUntil(() => _chosePlayer);
+            _choosingPlayer = false;
+        } 
+        while (!UIManager.Instance.ChoosePlayer((int)_playerChosen));
+
+        //Set up the player
+        player.SwitchCurrentActionMap("Controls");
+        Destroy(player.GetComponent<BasePlayer>());
+
+        yield return null; //Skip a frame to give the system time to destroy BasePlayer (I spent an hour trying to get this to work, help me)
+
+        player.gameObject.name = _playerChosen.ToString();
+        BasePlayer plr = null;
+
+        switch (_playerChosen)
+        {
+            case PlayerType.Elf:
+                plr = player.AddComponent<Elf>();
+                plr.ConstructWithInfo(_elf);
+                break;
+            case PlayerType.Wizard:
+                plr = player.AddComponent<Wizard>();
+                plr.ConstructWithInfo(_wizard);
+                break;
+            case PlayerType.Warrior:
+                plr = player.AddComponent<Warrior>();
+                plr.ConstructWithInfo(_warrior);
+                break;
+            case PlayerType.Valkyrie:
+                plr = player.AddComponent<Valkyrie>();
+                plr.ConstructWithInfo(_valkyrie);
+                break;
+            default:
+                break;
+        }
+
+        plr.playerType = _playerChosen;
+        plr.gameObject.GetComponent<PlayerController>().SetupCommands();
+        players.Add(plr);
+
+        Time.timeScale = 1;
+    }
+
+    public void ChoosePlayerWithButton(InputAction.CallbackContext context)
+    {
+        Debug.Log(context.ReadValue<Vector2>());
+        if (context.performed)
+        {
+            switch (context.ReadValue<Vector2>())
+            {
+                case Vector2 vec when vec == Vector2.up:
+                    _playerChosen = PlayerType.Elf;
+                    break;
+                case Vector2 vec when vec == Vector2.down:
+                    _playerChosen = PlayerType.Valkyrie;
+                    break;
+                case Vector2 vec when vec == Vector2.left:
+                    _playerChosen = PlayerType.Warrior;
+                    break;
+                case Vector2 vec when vec == Vector2.right:
+                    _playerChosen = PlayerType.Wizard;
+                    break;
+            }
+
+            _chosePlayer = true;
+        }
+    }
 }
