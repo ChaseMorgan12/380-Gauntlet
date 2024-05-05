@@ -1,9 +1,10 @@
 using System.Collections;
 using UnityEngine;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 /* FILE HEADER
 *  Edited by: Chase Morgan, Conner Zepeda
-*  Last Updated: 05/03/20024
+*  Last Updated: 05/04/20024
 *  Script Description: Handles behavior for the Socerer Enemy
 */
 
@@ -17,8 +18,8 @@ public class Sorcerer : BaseEnemy
     private float spellRange = 15f;
     private float spellVelocity = 10f;
     private bool canCastSpell = true;
-    private bool canTurnInvisible = true;
-    private bool isInvisible = false; //Shots will pass through them while invisible, won't be damaged
+    private bool canTurnInvisible = true; 
+    private bool isInvisible = false; //Shots will pass through them while invisible, won't be damaged, reference for player projectiles
 
     private void Awake()
     {
@@ -62,7 +63,8 @@ public class Sorcerer : BaseEnemy
         {
             if (hitColliders[i].CompareTag("Player")) //will do nothign if player is found in range
             {
-                transform.LookAt(hitColliders[i].transform);
+                _player = hitColliders[i].gameObject;
+                transform.LookAt(_player.transform);
                 return true;
             }
         }

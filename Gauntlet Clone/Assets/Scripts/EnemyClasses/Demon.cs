@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 /* FILE HEADER
 *  Edited by: Chase Morgan, Conner Zepeda
@@ -46,6 +47,8 @@ public class Demon : BaseEnemy
         if (PlayerInBiteRange())
         {
             Debug.Log("Bitting Player");
+            _player.GetComponent<BasePlayer>().TakeDamage(damage);
+
         }
         else if (PlayerInFireballRange())
         {
@@ -74,7 +77,8 @@ public class Demon : BaseEnemy
         {
             if (hitColliders[i].CompareTag("Player")) //can bite player if player is found in range
             {
-                transform.LookAt(hitColliders[i].transform);
+                _player = hitColliders[i].gameObject;
+                transform.LookAt(_player.transform);
                 return true;
             }
         }
@@ -87,7 +91,8 @@ public class Demon : BaseEnemy
         {
             if (hitColliders[i].CompareTag("Player")) //can throw fireball towards player if player is found in range
             {
-                transform.LookAt(hitColliders[i].transform);
+                _player = hitColliders[i].gameObject;
+                transform.LookAt(_player.transform);
                 return true;
             }
         }

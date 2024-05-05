@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 /* FILE HEADER
 *  Edited by: Chase Morgan, Conner Zepeda
-*  Last Updated: 05/02/20024
+*  Last Updated: 05/04/2024
 *  Script Description: Handles behavior for the Grunt Enemy
 */
 
@@ -53,6 +54,7 @@ public class Grunt : BaseEnemy
     private void SwingClub()
     {
         Debug.Log("Swinging Club");
+        _player.GetComponent<BasePlayer>().TakeDamage(damage);
     }
     private bool PlayerInClubRange()
     {
@@ -61,7 +63,8 @@ public class Grunt : BaseEnemy
         {
             if (hitColliders[i].CompareTag("Player")) //can swing club towards player if player is found in range
             {
-                transform.LookAt(hitColliders[i].transform);
+                _player = hitColliders[i].gameObject;
+                transform.LookAt(_player.transform);
                 return true;
             }
         }

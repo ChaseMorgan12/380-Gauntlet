@@ -2,17 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 /* FILE HEADER
-*  Edited by: Chase Morgan
-*  Last Updated: 05/03/2024
+*  Edited by: Chase Morgan, Conner Zepeda
+*  Last Updated: 05/04/2024
 *  Script Description: Handles behavior for the Theif Enemy
 */
 
 public class Thief : BaseEnemy
 {
     //Initializing unique enemy variables////////
-    private GameObject richestPLayer;
     
     private float playerMeleeRange = 2f;
 
@@ -45,7 +45,8 @@ public class Thief : BaseEnemy
         {
             if (hitColliders[i].CompareTag("Player")) //will steal from player if player is found in range
             {
-                transform.LookAt(hitColliders[i].transform);
+                _player = hitColliders[i].gameObject;
+                transform.LookAt(_player.transform);
                 return true;
             }
         }
@@ -53,40 +54,34 @@ public class Thief : BaseEnemy
     }
     private void MoveTowardsRichestPlayer()
     {
-        richestPLayer = FindRichestPlayer();
-        transform.LookAt(richestPLayer.transform);
-        transform.position = Vector3.MoveTowards(transform.position, richestPLayer.transform.position, moveRange);
+        _player = FindRichestPlayer();
+        transform.LookAt(_player.transform);
+        transform.position = Vector3.MoveTowards(transform.position, _player.transform.position, moveRange);
     }
     private GameObject FindRichestPlayer() //will move to closest player by default
     {
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, detectionRange);
         for (int i = 0; i < hitColliders.Length; i++)
         {
-            //TEMPORYARY FUNCTION REDO AFTER MERGE UPDATE///////////////////
-            if (hitColliders[i].CompareTag("Player"))
-            {
-                return hitColliders[i].gameObject;
-            }
-
-            /*if (hitColliders[i].CompareTag("Player") && hitColliders[i].GetComponent<BasePlayer>().PlayerData.currentScore < _richestPlayerScore)
+            if (hitColliders[i].CompareTag("Player") && hitColliders[i].GetComponent<BasePlayer>().PlayerData.CurrentScore < _richestPlayerScore)
             {
                 continue;
             }
-            else if (hitColliders[i].CompareTag("Player") && hitColliders[i].GetComponent<BasePlayer>().PlayerData.currentScore >= _richestPlayerScore)
+            else if (hitColliders[i].CompareTag("Player") && hitColliders[i].GetComponent<BasePlayer>().PlayerData.CurrentScore >= _richestPlayerScore)
             {
-                //_richestPlayerScore = hitColliders[i].GetComponent<BasePlayer>().PlayerData.currentScore;
+                _richestPlayerScore = (int)hitColliders[i].GetComponent<BasePlayer>().PlayerData.CurrentScore;
                 richestPlayerIndex = i;
-            }*/
+            }
         }
         return hitColliders[richestPlayerIndex].gameObject;
     }
     private void Steal()
     {
         //Attack for 10 damage
-
+        _player.GetComponent<BasePlayer>().TakeDamage(damage);
 
         //Steal upgrade potions first
         //If no upgrade potions, steal potions, keys, score, or multiplayer bonus multiplier
-        
+
     }
 }

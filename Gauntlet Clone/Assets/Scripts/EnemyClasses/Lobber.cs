@@ -3,7 +3,7 @@ using UnityEngine;
 
 /* FILE HEADER
 *  Edited by: Chase Morgan, Conner Zepeda
-*  Last Updated: 04/18/2024
+*  Last Updated: 05/04/2024
 *  Script Description: Implementing the Lobber enemy behavior
 */
 
@@ -84,8 +84,9 @@ public class Lobber : BaseEnemy
         {
             if (hitColliders[i].CompareTag("Player"))
             {
-                transform.LookAt(hitColliders[i].transform);
-                transform.position = Vector3.MoveTowards(transform.position, -hitColliders[i].transform.position, moveRange);
+                _player = hitColliders[i].gameObject;
+                transform.LookAt(_player.transform);
+                transform.position = Vector3.MoveTowards(transform.position, -_player.transform.position, moveRange);
             }
         }
     }

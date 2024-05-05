@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 /* FILE HEADER
 *  Edited by: Chase Morgan, Conner Zepeda
@@ -29,14 +30,16 @@ public class Death : BaseEnemy
 
     private void Awake()
     {
+        //Initializing unique enemy variables////////
         speed = .5f; //Moves slower than other enemies????
         detectionRange = 25f;
         moveRange = 0.1f;
+        damage = 10f;
     }
 
     private void FixedUpdate()
     {
-        if (PlayerInClubRange())
+        if (PlayerInSapRange())
         {
             if (canSap)
             {
@@ -51,15 +54,18 @@ public class Death : BaseEnemy
     private void SapHealth() //it saps HP rapidly until either contact is broken, or it reaches the limit of 200 health and disappears.
     {
         Debug.Log("Sapping Player Health");
+        _player.GetComponent<BasePlayer>().TakeDamage(damage);
+
     }
-    private bool PlayerInClubRange()
+    private bool PlayerInSapRange()
     {
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, sapRange);
         for (int i = 0; i < hitColliders.Length; i++)
         {
             if (hitColliders[i].CompareTag("Player")) //can sap player health if player is found in range
             {
-                transform.LookAt(hitColliders[i].transform);
+                _player = hitColliders[i].gameObject;
+                transform.LookAt(_player.transform);
                 return true;
             }
         }
@@ -115,5 +121,7 @@ public class Death : BaseEnemy
         //Dies
         //Gives points based on how much it has been hit
         //PlayerData.Score += pointValue
+        
+        //_player.GetComponent<BasePlayer>().GetPoints(pointValue);
     }
 }

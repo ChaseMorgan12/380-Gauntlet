@@ -14,15 +14,8 @@ public abstract class BaseEnemy : Damageable
 
     protected int enemyLevel;
 
-    public virtual void Attack1()
-    {
+    protected GameObject _player;
 
-    }
-
-    public virtual void Attack2()
-    {
-
-    }
     public virtual void MoveTowardsPlayer()
     {
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, detectionRange);

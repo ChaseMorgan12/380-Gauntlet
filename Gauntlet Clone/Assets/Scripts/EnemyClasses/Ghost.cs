@@ -47,7 +47,9 @@ public class Ghost : BaseEnemy
     }
     private void SelfDestruct()
     {
-        //throw new System.NotImplementedException();
+        //Damage player
+
+
         Destroy(this.gameObject);
         Debug.Log("enemy got hit, destroyed: " + gameObject);
     }
