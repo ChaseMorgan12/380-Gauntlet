@@ -25,9 +25,9 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
-        GetComponent<Rigidbody>().MovePosition(transform.position + playerSpeed * Time.deltaTime * new Vector3(moveValue.x, 0.0f, moveValue.y));
+        GetComponent<Rigidbody>().AddForce(new Vector3(moveValue.x, 0, moveValue.y) * playerSpeed, ForceMode.Impulse);
     }
 
     public void Move(InputAction.CallbackContext context)
