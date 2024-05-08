@@ -13,21 +13,27 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] private float playerSpeed = 5.0f;
 
+    private Rigidbody _rb;
+
     private Vector2 moveValue;
     private Command _attack1, _attack2, _attack3;
+    private bool _ignoreNextInput = false;
 
     private void Awake()
     {
         if (GetComponent<Rigidbody>() == null)
         {
-            Rigidbody rb = gameObject.AddComponent<Rigidbody>();
-            rb.constraints = RigidbodyConstraints.FreezeRotation;
+            _rb = gameObject.AddComponent<Rigidbody>();
+            _rb.constraints = RigidbodyConstraints.FreezeRotation;
         }
+        else
+            _rb = GetComponent<Rigidbody>();
+
     }
 
     private void FixedUpdate()
     {
-        GetComponent<Rigidbody>().AddForce(new Vector3(moveValue.x, 0, moveValue.y) * playerSpeed, ForceMode.Impulse);
+        _rb.AddForce(new Vector3(moveValue.x, 0, moveValue.y) * playerSpeed, ForceMode.Impulse);
     }
 
     public void Move(InputAction.CallbackContext context)
@@ -36,6 +42,12 @@ public class PlayerController : MonoBehaviour
 
         if (context.performed)
         {
+            if (_ignoreNextInput)
+            {
+                _ignoreNextInput = false;
+                return;
+            }
+
             switch (moveValue) //This sucks, and works...
             {
                 case Vector2 when moveValue == Vector2.up:
@@ -57,18 +69,22 @@ public class PlayerController : MonoBehaviour
                 case Vector2 when moveValue.normalized == new Vector2(Mathf.Sqrt(.5f), Mathf.Sqrt(.5f)):
                     //Debug.Log("Angled Right");
                     transform.rotation = Quaternion.Euler(0, 45, 0);
+                    _ignoreNextInput = true; //Ignore next input because there are two buttons pressed at the same time which leads to this firing twice
                     break;
                 case Vector2 when moveValue.normalized == new Vector2(Mathf.Sqrt(.5f), -Mathf.Sqrt(.5f)):
                     //Debug.Log("Angled Negative Right");
                     transform.rotation = Quaternion.Euler(0, 135, 0);
+                    _ignoreNextInput = true;
                     break;
                 case Vector2 when moveValue.normalized == new Vector2(-Mathf.Sqrt(.5f), Mathf.Sqrt(.5f)):
-                   // Debug.Log("Angled Left");
+                    // Debug.Log("Angled Left");
                     transform.rotation = Quaternion.Euler(0, -45, 0);
+                    _ignoreNextInput = true;
                     break;
                 case Vector2 when moveValue.normalized == new Vector2(-Mathf.Sqrt(.5f), -Mathf.Sqrt(.5f)):
                     //Debug.Log("Angled Negative Left");
                     transform.rotation = Quaternion.Euler(0, -135, 0);
+                    _ignoreNextInput = true;
                     break;
                 default:
                     Debug.LogWarning("No movement direction matched the input, ignoring"); //Just in case (there really should never be a situation where this happens, unless we f up)

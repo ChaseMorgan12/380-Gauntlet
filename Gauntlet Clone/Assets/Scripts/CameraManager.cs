@@ -5,6 +5,7 @@ using UnityEngine;
 public class CameraManager : Singleton<CameraManager>
 {
     private readonly List<Camera> cameras = new();
+    private Vector3[] velocities = new Vector3[4];
     private bool camerasMerged = false;
     private Rect mainCamRect;
     //private List<GameObject> players = new();
@@ -17,14 +18,22 @@ public class CameraManager : Singleton<CameraManager>
 
     private void LateUpdate()
     {
-        foreach (Camera cam in cameras)
-            cam.transform.position = cam.transform.parent.GetChild(0).transform.position + (Vector3.up * 10);
+        for (int index = 0; index < cameras.Count; index++)
+        {
+            cameras[index].transform.position = Vector3.SmoothDamp(cameras[index].transform.position,
+                                                                   cameras[index].transform.parent.GetChild(0).transform.position + (Vector3.up * 10),
+                                                                   ref velocities[index],
+                                                                   0.25f);
+        }
     }
 
     public void AddCamera(Camera camera)
     {
+        if (cameras.Count == 0)
+        {
+            Camera.main.gameObject.SetActive(false);
+        }
         cameras.Add(camera);
-        //players.Add(camera.transform.parent.GetChild(0).gameObject);
 
         mainCamRect = cameras[0].rect; //Reset the main camera rect
     }
@@ -32,7 +41,11 @@ public class CameraManager : Singleton<CameraManager>
     public void RemoveCamera(Camera camera)
     {
         cameras.Remove(camera);
-        //players.Remove(camera.transform.parent.GetChild(0).gameObject);
+
+        if (cameras.Count == 0)
+        {
+            Camera.main.gameObject.SetActive(true);
+        }
     }
 
     private void AddCamera(GameObject player)
@@ -88,7 +101,7 @@ public class CameraManager : Singleton<CameraManager>
             if (mainCam == cam) continue;
 
             Debug.Log(Vector3.Distance(mainCam.transform.position, cam.transform.position));
-            if (Vector3.Distance(mainCam.transform.position, cam.transform.position) > 5)
+            if (Vector3.Distance(mainCam.transform.position, cam.transform.position) > 10)
             {
                 canMerge = false;
                 break;

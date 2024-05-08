@@ -9,7 +9,7 @@ using UnityEngine.InputSystem.Users;
 
 /* FILE HEADER
 *  Edited by: Chase Morgan
-*  Last Updated: 05/02/2024
+*  Last Updated: 05/07/2024
 *  Script Description: Manages all of the players in the current scene
 */
 
@@ -97,6 +97,10 @@ public class PlayerManager : Singleton<PlayerManager>
         plr.playerType = _playerChosen;
         plr.gameObject.GetComponent<PlayerController>().SetupCommands();
         players.Add(plr);
+        if (players.Count > 1)
+        {
+            plr.transform.position = players[0].transform.position;
+        }
 
         Time.timeScale = 1;
     }
