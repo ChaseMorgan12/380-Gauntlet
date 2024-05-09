@@ -1,27 +1,42 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 /* FILE HEADER
-*  Edited by: Chase Morgan
-*  Last Updated: 00/00/0000
-*  Script Description:
+*  Edited by: Chase Morgan, Conner Zepeda
+*  Last Updated: 05/02/20024
+*  Script Description: Handles behavior for the Demon Enemy
 */
 
 public class Demon : BaseEnemy
 {
     public GameObject fireball;
 
-
     private float biteRange = 1f;
-    private float fireballRange = 10f;
-    private float fireballVelocity = 5f;
 
-    private bool canBite = true;
-    private bool canFireball = true;
+    private float fireballRange= 10f;
+    private float fireballVelocity = 7f;
+    private bool canThrowFireball = true;
 
     private void Awake()
     {
+        //Based on ememy level, damage will change
+        switch (enemyLevel)
+        {
+            case 1:
+                damage = 5;
+                break;
+            case 2:
+                damage = 8;
+
+                break;
+            case 3:
+                damage = 10;
+                break;
+            default:
+                break;
+        }
         speed = 2f;
         detectionRange = 25f;
         moveRange = 0.1f;
@@ -31,16 +46,15 @@ public class Demon : BaseEnemy
     {
         if (PlayerInBiteRange())
         {
-            if (canBite)
-            {
-                StartCoroutine(BiteTimer());
-            }
+            Debug.Log("Bitting Player");
+            _player.GetComponent<BasePlayer>().TakeDamage(damage);
+
         }
         else if (PlayerInFireballRange())
         {
-            if (canFireball)
+            if (canThrowFireball)
             {
-                StartCoroutine(FireballTimer());
+                StartCoroutine(fireballTimer());
             }
         }
         else
@@ -48,27 +62,13 @@ public class Demon : BaseEnemy
             MoveTowardsPlayer();
         }
     }
-    private void Fireball()
-    {
-        
-
-    }
-    private void Bite()
-    {
-        //Swing club at player if in club range
-        Debug.Log("Biting");
-
-    }
     private void ThrowFireball()
     {
-        //instansiate fireball prefab towards player
-        //Demon fireballs will damage anything
-        //Take care not to accidentally train their shots onto breakable jugs of food or blue potions; their shots destroy such items (and their shots don't activate potions either).
-        //Instead, train their shots onto enemies and generators to damage or destroy them.
+        //instansiate rock prefab towards player
         Debug.Log("Throwing fireball");
         GameObject fireballProj = Instantiate(fireball, transform.position, transform.rotation);
         fireballProj.GetComponent<Rigidbody>().velocity = transform.forward * fireballVelocity;
-        StartCoroutine(FireballDestroyTimer(fireballProj));
+        StartCoroutine(fireballDestroyTimer(fireballProj));
     }
     private bool PlayerInBiteRange()
     {
@@ -77,7 +77,8 @@ public class Demon : BaseEnemy
         {
             if (hitColliders[i].CompareTag("Player")) //can bite player if player is found in range
             {
-                transform.LookAt(hitColliders[i].transform);
+                _player = hitColliders[i].gameObject;
+                transform.LookAt(_player.transform);
                 return true;
             }
         }
@@ -88,32 +89,26 @@ public class Demon : BaseEnemy
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, fireballRange);
         for (int i = 0; i < hitColliders.Length; i++)
         {
-            if (hitColliders[i].CompareTag("Player")) //can hurl fireball at player if player is found in range
+            if (hitColliders[i].CompareTag("Player")) //can throw fireball towards player if player is found in range
             {
-                transform.LookAt(hitColliders[i].transform);
+                _player = hitColliders[i].gameObject;
+                transform.LookAt(_player.transform);
                 return true;
             }
         }
         return false;
     }
-    private IEnumerator BiteTimer()
+   
+    private IEnumerator fireballTimer()
     {
-        canBite = false;
-        Bite();
-        yield return new WaitForSeconds(2f);
-        canBite = true;
-    }
-
-    private IEnumerator FireballTimer()
-    {
-        canFireball = false;
+        canThrowFireball = false;
         ThrowFireball();
-        yield return new WaitForSeconds(4f);
-        canFireball = true;
+        yield return new WaitForSeconds(3.5f);
+        canThrowFireball = true;
     }
-    private IEnumerator FireballDestroyTimer(GameObject fireball)
+    private IEnumerator fireballDestroyTimer(GameObject fireballGo)
     {
         yield return new WaitForSeconds(2f);
-        Destroy(fireball);
+        Destroy(fireballGo);
     }
-}    
+}

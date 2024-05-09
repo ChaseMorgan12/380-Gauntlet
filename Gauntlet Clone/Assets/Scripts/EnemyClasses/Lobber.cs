@@ -3,20 +3,23 @@ using UnityEngine;
 
 /* FILE HEADER
 *  Edited by: Chase Morgan, Conner Zepeda
-*  Last Updated: 04/18/2024
+*  Last Updated: 05/04/2024
 *  Script Description: Implementing the Lobber enemy behavior
 */
 
 public class Lobber : BaseEnemy
 {
+    //Initializing unique enemy variables
     public GameObject rock;
 
-    private float rockRange = 7f;
-    private float rockVelocity = 7f;
+    private float runRange = 5f;
+    private float rockRange = 15f;
+    private float rockVelocity = 10f;
     private bool canThrowRock = true;
 
     private void Awake()
     {
+        damage = 3;
         speed = 2f;
         detectionRange = 25f;
         moveRange = 0.1f;
@@ -24,7 +27,11 @@ public class Lobber : BaseEnemy
 
     private void FixedUpdate()
     {
-        if (PlayerInRockRange())
+        if (PlayerInRunRange())
+        {
+            RunAway();
+        }
+        else if (PlayerInRockRange())
         {
             if (canThrowRock)
             {
@@ -44,6 +51,19 @@ public class Lobber : BaseEnemy
         rockProj.GetComponent<Rigidbody>().velocity = transform.forward * rockVelocity;
         StartCoroutine(rockDestroyTimer(rockProj));
     }
+    private bool PlayerInRunRange()
+    {
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, runRange);
+        for (int i = 0; i < hitColliders.Length; i++)
+        {
+            if (hitColliders[i].CompareTag("Player")) //will run away from player if player is found in range
+            {
+                transform.LookAt(hitColliders[i].transform);
+                return true;
+            }
+        }
+        return false;
+    }
     private bool PlayerInRockRange()
     {
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, rockRange);
@@ -56,6 +76,19 @@ public class Lobber : BaseEnemy
             }
         }
         return false;
+    }
+    public virtual void RunAway()
+    {
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, detectionRange);
+        for (int i = 0; i < hitColliders.Length; i++)
+        {
+            if (hitColliders[i].CompareTag("Player"))
+            {
+                _player = hitColliders[i].gameObject;
+                transform.LookAt(_player.transform);
+                transform.position = Vector3.MoveTowards(transform.position, -_player.transform.position, moveRange);
+            }
+        }
     }
     private IEnumerator rockTimer()
     {

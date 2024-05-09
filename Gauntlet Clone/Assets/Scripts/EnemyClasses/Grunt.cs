@@ -1,20 +1,37 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 /* FILE HEADER
 *  Edited by: Chase Morgan, Conner Zepeda
-*  Last Updated: 04/30/2024
-*  Script Description:
+*  Last Updated: 05/04/2024
+*  Script Description: Handles behavior for the Grunt Enemy
 */
 
 public class Grunt : BaseEnemy
 {
-    private float clubRange = 1f;
+    private float clubRange = 1.7f;
     private bool canSwingClub = true;
 
     private void Awake()
     {
+        //Based on ememy level, damage will change
+        switch (enemyLevel)
+        {
+            case 1:
+                damage = 5;
+                break;
+            case 2:
+                damage = 8;
+
+                break;
+            case 3:
+                damage = 10;
+                break;
+            default:
+                break;
+        }
         speed = 2f;
         detectionRange = 25f;
         moveRange = 0.1f;
@@ -26,7 +43,7 @@ public class Grunt : BaseEnemy
         {
             if (canSwingClub)
             {
-                StartCoroutine(clubTimer());
+                StartCoroutine(SwingClubTimer());
             }
         }
         else
@@ -36,29 +53,29 @@ public class Grunt : BaseEnemy
     }
     private void SwingClub()
     {
-        //Swing club at player if in club range
         Debug.Log("Swinging Club");
-
+        _player.GetComponent<BasePlayer>().TakeDamage(damage);
     }
     private bool PlayerInClubRange()
     {
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, clubRange);
         for (int i = 0; i < hitColliders.Length; i++)
         {
-            if (hitColliders[i].CompareTag("Player")) //can swing club at player if player is found in range
+            if (hitColliders[i].CompareTag("Player")) //can swing club towards player if player is found in range
             {
-                transform.LookAt(hitColliders[i].transform);
+                _player = hitColliders[i].gameObject;
+                transform.LookAt(_player.transform);
                 return true;
             }
         }
         return false;
     }
-    private IEnumerator clubTimer()
+    private IEnumerator SwingClubTimer()
     {
         canSwingClub = false;
         SwingClub();
         yield return new WaitForSeconds(2f);
         canSwingClub = true;
     }
-
+    
 }

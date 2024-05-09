@@ -4,15 +4,16 @@ using Unity.VisualScripting;
 using UnityEngine;
 
 /* FILE HEADER
-*  Edited by: Chase Morgan
-*  Last Updated: 00/00/0000
-*  Script Description:
+*  Edited by: Chase Morgan, Conner Zepeda
+*  Last Updated: 05/02/20024
+*  Script Description: Handles behavior for the Ghost Enemy
 */
 
 public class Ghost : BaseEnemy
 {
     private void Awake()
     {
+        //Based on ememy level, damage will change
         switch (enemyLevel)
         {
             case 1:
@@ -46,8 +47,11 @@ public class Ghost : BaseEnemy
     }
     private void SelfDestruct()
     {
-        //throw new System.NotImplementedException();
+        //Damage player
+
+
         Destroy(this.gameObject);
         Debug.Log("enemy got hit, destroyed: " + gameObject);
     }
+
 }
