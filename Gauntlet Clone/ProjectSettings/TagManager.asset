@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Rock
   - Enemy
+  - Fireball
+  - SocererSpell
   layers:
   - Default
   - TransparentFX
