@@ -29,7 +29,7 @@ public class CameraManager : Singleton<CameraManager>
 
     public void AddCamera(Camera camera)
     {
-        if (cameras.Count == 0)
+        if (cameras.Count == 0 && Camera.main)
         {
             Camera.main.gameObject.SetActive(false);
         }

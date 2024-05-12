@@ -5,7 +5,7 @@ using static UnityEditor.Experimental.GraphView.GraphView;
 
 /* FILE HEADER
 *  Edited by: Chase Morgan, Conner Zepeda
-*  Last Updated: 05/02/20024
+*  Last Updated: 05/10/20024
 *  Script Description: Handles behavior for the Demon Enemy
 */
 
@@ -13,7 +13,7 @@ public class Demon : BaseEnemy
 {
     public GameObject fireball;
 
-    private float biteRange = 1f;
+    private float biteRange = 0.7f;
 
     private float fireballRange= 10f;
     private float fireballVelocity = 7f;

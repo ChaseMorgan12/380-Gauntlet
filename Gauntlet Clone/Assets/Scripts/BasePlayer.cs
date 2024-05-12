@@ -11,7 +11,6 @@ using UnityEngine.InputSystem;
 
 public class BasePlayer : Subject
 {
-
     public PlayerType playerType;
 
     private int _keys = 0;
@@ -48,7 +47,28 @@ public class BasePlayer : Subject
     {
         PlayerData = new PlayerData();
     }
-
+    private void OnTriggerEnter(Collider other)
+    {
+        //Enemy Projectiles
+        if (other.CompareTag("Rock"))
+        {
+            TakeDamage(3);
+            Destroy(other.gameObject);
+            Debug.Log("Hit by rock, Damage: 3");
+        }
+        else if (other.CompareTag("Fireball"))
+        {
+            TakeDamage(5);
+            Destroy(other.gameObject);
+            Debug.Log("Hit by fireball, Damage: 5");
+        }
+        else if (other.CompareTag("SorcererSpell"))
+        {
+            TakeDamage(7);
+            Destroy(other.gameObject);
+            Debug.Log("Hit by SorcererSpell, Damage: 7");
+        }
+    }
     public virtual void Attack1() //Ranged
     {
         Debug.Log(_playerProjectile);

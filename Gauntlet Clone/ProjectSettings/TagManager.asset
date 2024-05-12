@@ -7,7 +7,7 @@ TagManager:
   - Rock
   - Enemy
   - Fireball
-  - SocererSpell
+  - SorcererSpell
   layers:
   - Default
   - TransparentFX

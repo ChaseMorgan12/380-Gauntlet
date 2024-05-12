@@ -15,7 +15,21 @@ public abstract class BaseEnemy : Damageable
     protected int enemyLevel;
 
     protected GameObject _player;
-
+    private void OnTriggerEnter(Collider other)
+    {
+        //Projectiles
+        if (other.CompareTag("Rock")) //Replace rock with something PLayer Projectiles
+        {
+            Destroy(other.gameObject);
+            Destroy(gameObject);
+        }
+        else if (other.CompareTag("Fireball")) //Can die to other enemy's fireball
+        {
+            Destroy(other.gameObject);
+            Destroy(gameObject);
+            Debug.Log("Hit by fireball, Damage: 5");
+        }
+    }
     public virtual void MoveTowardsPlayer()
     {
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, detectionRange);

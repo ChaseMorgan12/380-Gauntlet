@@ -5,7 +5,7 @@ using UnityEngine;
 
 /* FILE HEADER
 *  Edited by: Chase Morgan, Conner Zepeda
-*  Last Updated: 05/02/20024
+*  Last Updated: 05/10/20024
 *  Script Description: Handles behavior for the Ghost Enemy
 */
 
@@ -48,8 +48,8 @@ public class Ghost : BaseEnemy
     private void SelfDestruct()
     {
         //Damage player
-
-
+        _player.GetComponent<BasePlayer>().TakeDamage(damage);
+        //Destroy self
         Destroy(this.gameObject);
         Debug.Log("enemy got hit, destroyed: " + gameObject);
     }

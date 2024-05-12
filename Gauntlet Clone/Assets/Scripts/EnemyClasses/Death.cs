@@ -55,7 +55,6 @@ public class Death : BaseEnemy
     {
         Debug.Log("Sapping Player Health");
         _player.GetComponent<BasePlayer>().TakeDamage(damage);
-
     }
     private bool PlayerInSapRange()
     {
@@ -118,10 +117,12 @@ public class Death : BaseEnemy
     }
     private void PotionHit() 
     {
-        //Dies
         //Gives points based on how much it has been hit
         //PlayerData.Score += pointValue
-        
-        //_player.GetComponent<BasePlayer>().GetPoints(pointValue);
+
+        //_player.GetComponent<BasePlayer>().IncreasePoints(pointValue);
+
+        //Dies
+        Destroy(gameObject);
     }
 }
