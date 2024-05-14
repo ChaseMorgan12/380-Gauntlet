@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.LowLevel;
 using UnityEngine.InputSystem.Users;
+using UnityEngine.SceneManagement;
 
 /* FILE HEADER
 *  Edited by: Chase Morgan
@@ -31,6 +32,9 @@ public class PlayerManager : Singleton<PlayerManager>
     public override void Awake()
     {
         base.Awake();
+
+        BasePlayer.PlayerDeath += PlayerDied;
+        Exit.OnExit += RevivePlayers;
     }
 
     public void OnPlayerJoined(PlayerInput plr)
@@ -45,6 +49,7 @@ public class PlayerManager : Singleton<PlayerManager>
 
     public void OnPlayerLeft(PlayerInput plr)
     {
+        Debug.Log(plr.gameObject.name + " has left");
         players.Remove(plr.GetComponent<BasePlayer>());
     }
 
@@ -103,6 +108,53 @@ public class PlayerManager : Singleton<PlayerManager>
         }
 
         Time.timeScale = 1;
+    }
+
+    private void PlayerDied(GameObject player)
+    {
+        player.GetComponent<PlayerController>().enabled = false;
+        player.GetComponent<MeshRenderer>().enabled = false;
+        player.GetComponent<Collider>().enabled = false;
+
+        bool allDead = true;
+
+        foreach(BasePlayer p in players)
+        {
+            if (p.PlayerData.Health > 0)
+                allDead = false;
+        }
+
+        if (allDead)
+        {
+            StartCoroutine(UIManager.Instance.GameOver());
+            return;
+
+            /*for (int index = 0; index < players.Count; index++)
+            {
+                Destroy(players[index].GetComponent<PlayerInput>());
+                //players[index].gameObject.SetActive(false);
+                UIManager.Instance.RemovePlayer(index);
+            }
+
+            while (players.Count > 0)
+            {
+                players.Remove(players[0]);
+            }
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex); */
+        }
+        player.GetComponent<BasePlayer>().Reset();
+    }
+
+    public void RevivePlayers()
+    {
+        foreach (var player in players)
+        {
+            player.GetComponent<PlayerController>().enabled = true;
+            player.GetComponent<MeshRenderer>().enabled = true;
+            player.GetComponent<Collider>().enabled = true;
+
+
+        }
     }
 
     public void ChoosePlayerWithButton(InputAction.CallbackContext context)

@@ -16,6 +16,8 @@ public class BasePlayer : Subject
 
     public event Action PlayerLowHealth;
 
+    public static event Action<GameObject> PlayerDeath;
+
     [Header("Projectile Info")]
     [SerializeField] protected GameObject _playerProjectile;
     [SerializeField] protected float _projectileSpeed = 10f;
@@ -50,8 +52,6 @@ public class BasePlayer : Subject
         PlayerData = new PlayerData(_startingHealth, _projectileDamage, _magicDamage, _meleeDamage, 100);
 
         Attach(NarratorManager.Instance);
-
-        StartCoroutine(HealthDecrement());
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -129,6 +129,11 @@ public class BasePlayer : Subject
         StartCoroutine(HealthDecrement());
     }
 
+    private void OnEnable()
+    {
+        StartCoroutine(HealthDecrement());
+    }
+
     public virtual void Attack1() //Ranged
     {
         if (!canProjectile) return;
@@ -182,13 +187,15 @@ public class BasePlayer : Subject
         if (!bypassArmor && PlayerData.Armor > 0)
         {
             PlayerData.Armor -= amount;
+
+            if (PlayerData.Armor < 0)
+                PlayerData.Armor = 0;
             return;
         }
 
 
         PlayerData.Health -= amount;
 
-        Debug.Log(PlayerData.Health);
 
         if (PlayerData.Health < 200 && triggerNarratorHealthDialogue)
         {
@@ -201,7 +208,7 @@ public class BasePlayer : Subject
 
         if (PlayerData.Health <= 0)
         {
-            Debug.Log(gameObject.name + " has died!");
+            PlayerDeath?.Invoke(gameObject);
         }
     }
 
@@ -223,5 +230,11 @@ public class BasePlayer : Subject
         _magicDamage = info.magicDamage;
         _meleeDamage = info.meleeDamage;
         _meleeRange = info.meleeRange;
+    }
+
+    public void Reset()
+    {
+        PlayerData = new PlayerData(_startingHealth, _projectileDamage, _magicDamage, _meleeDamage, 100);
+        StopAllCoroutines();
     }
 }

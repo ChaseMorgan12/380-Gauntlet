@@ -4,11 +4,18 @@ using UnityEngine;
 
 public class CameraManager : Singleton<CameraManager>
 {
-    private readonly List<Camera> cameras = new();
+    private List<Camera> cameras = new();
     private Vector3[] velocities = new Vector3[4];
     private bool camerasMerged = false;
     private Rect mainCamRect;
     //private List<GameObject> players = new();
+
+    private void OnEnable()
+    {
+
+        cameras = new();
+        velocities = new Vector3[4];
+    }
 
     private void Start()
     {

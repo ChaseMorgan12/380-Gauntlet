@@ -30,11 +30,11 @@ public class Singleton<T> : MonoBehaviour where T : Component
         if(instance == null)
         {
             instance = this as T;
-            //DontDestroyOnLoad(gameObject);
+            DontDestroyOnLoad(transform.root);
         }
         else
         {
-            Destroy(gameObject);
+            Destroy(transform.root.gameObject);
         }
     }
 }
