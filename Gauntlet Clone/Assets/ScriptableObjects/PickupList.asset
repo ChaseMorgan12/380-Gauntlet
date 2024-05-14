@@ -10,10 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5790ddbaac757774f9a590af20a7bc6b, type: 3}
-  m_Name: LevelList
+  m_Name: PickupList
   m_EditorClassIdentifier: 
   list:
-  - {fileID: 638302971201802051, guid: 5045fa78e590b6742a3450fec41e25da, type: 3}
-  - {fileID: 136491937321463584, guid: d93edf759dbcd18459bbb196f8bc6598, type: 3}
-  - {fileID: 1591186155541232930, guid: 3e5dcd1f625d40e408091a40fc07ee40, type: 3}
-  - {fileID: 6941000653814305627, guid: 77ab6fb167cefa144bbc511a3fa28c71, type: 3}
+  - {fileID: 4795552215648117126, guid: 22dc86a9c1317944288e2737c77d3ea3, type: 3}
+  - {fileID: 7862200665408487836, guid: 2290a24ba24112940ab421a71ca7b487, type: 3}
+  - {fileID: 3507756527291595386, guid: cd7a9fdd3fb34794085979da6cf8a3c2, type: 3}

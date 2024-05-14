@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 /* FILE HEADER
@@ -13,7 +14,10 @@ public class GameManager : Singleton<GameManager>, IObserver
 {
     //Fields
 
-    [SerializeField] private GameObject _currentLevel;
+    private GameObject _currentLevel;
+
+    [SerializeField] private GameObjectList _levelList;
+    [SerializeField] private GameObjectList _pickupList;
 
     private void CallNarrator()
     {
@@ -25,23 +29,58 @@ public class GameManager : Singleton<GameManager>, IObserver
 
     }
 
-    private void LoadNextLevel(GameObject level)
+    private void LoadNextLevel()
     {
-        Destroy(_currentLevel);
+        GameObject level = GetRandomLevel();
 
-        _currentLevel = Instantiate(level);
+        if (_currentLevel) Destroy(_currentLevel);
+
+        level = Instantiate(level);
+
+        _currentLevel = level;
+
         BasePlayer[] players = PlayerManager.Instance.players.ToArray();
 
-        GameObject spawn = level.transform.GetChild(0).gameObject;
+        List<GameObject> pickupLocations = new List<GameObject>();
+        
+        foreach(Transform t in level.transform)
+        {
+            if (t.name.Contains("Pickup"))
+            {
+                t.gameObject.SetActive(false);
+                pickupLocations.Add(t.gameObject);
+            }
+        }
 
-        if (spawn.name != "Spawn")
-            spawn = level.transform.Find("Spawn").gameObject;
+        for (int index = 0; index < pickupLocations.Count; index++)
+        {
+            Instantiate(GetRandomPickup(), pickupLocations[index].transform.position, Quaternion.identity, level.transform);
+        }
 
 
         for (int i = 0; i < players.Length; i++)
         {
-            players[i].transform.position = spawn.transform.position;
+            players[i].transform.position = Vector3.zero + (Vector3.up * (players[i].transform.localScale.y / 2 + 0.05f));
         }
+    }
+
+    private GameObject GetRandomLevel()
+    {
+        GameObject go = _levelList.list[Random.Range(0, _levelList.list.Length - 1)];
+
+        return go;
+    }
+
+    private GameObject GetRandomPickup()
+    {
+        GameObject go = _pickupList.list[Random.Range(0, _pickupList.list.Length - 1)];
+
+        return go;
+    }
+
+    private void Start()
+    {
+        LoadNextLevel();
     }
 
     public override void Awake()

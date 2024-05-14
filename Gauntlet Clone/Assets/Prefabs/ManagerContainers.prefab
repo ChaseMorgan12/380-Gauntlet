@@ -44,7 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd2d18da6830b40379e8a43e867bd58e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _currentLevel: {fileID: 0}
+  _levelList: {fileID: 11400000, guid: d1c8bbd324b771c45a3b7ff47383979b, type: 2}
+  _pickupList: {fileID: 11400000, guid: 506c5e34196684f4d93a78f4a15e0e7b, type: 2}
 --- !u!1 &1327764153869543516
 GameObject:
   m_ObjectHideFlags: 0
