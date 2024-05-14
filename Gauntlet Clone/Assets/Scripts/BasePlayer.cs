@@ -1,11 +1,12 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 /* FILE HEADER
-*  Edited by: Chase Morgan
-*  Last Updated: 04/18/2024
+*  Edited by: Chase Morgan, Conner Zepeda
+*  Last Updated: 05/13/2024
 *  Script Description: Handles the BasePlayer class that all players inherit from
 */
 
@@ -14,7 +15,7 @@ public class BasePlayer : Subject
     public PlayerType playerType;
 
     private int _keys = 0;
-    private int _potions = 0;
+
 
     public int Keys
     {
@@ -51,6 +52,7 @@ public class BasePlayer : Subject
     private void OnTriggerEnter(Collider other)
     {
         //Enemy Projectiles
+       
         if (other.CompareTag("Rock"))
         {
             TakeDamage(3);
