@@ -16,18 +16,31 @@ public class BasePlayer : Subject
 
     public event Action PlayerLowHealth;
 
+    public static event Action<GameObject> PlayerDeath;
+
     [Header("Projectile Info")]
     [SerializeField] protected GameObject _playerProjectile;
     [SerializeField] protected float _projectileSpeed = 10f;
     [SerializeField] protected float _projectileDamage = 1f;
+    [SerializeField] protected float _projectileCooldown = 1f;
 
     [Header("Magic Info")]
     [SerializeField] protected GameObject _magicProjectile;
     [SerializeField] protected float _magicDamage = 1f;
+    [SerializeField] protected float _magicCooldown = 1f;
 
     [Header("Melee Info")]
     [SerializeField] protected float _meleeRange = 2f;
     [SerializeField] protected float _meleeDamage = 1f;
+    [SerializeField] protected float _meleeCooldown = 1f;
+
+    [Header("Player Stats")]
+    [SerializeField, Min(1)] protected float _startingHealth = 1000f;
+    [SerializeField] protected float _playerHealthTick = 0.25f;
+
+
+    protected float _maxHealth = 1000f;
+    protected bool canProjectile = true, canMagic = true, canMelee = true;
 
     public PlayerData PlayerData { get; protected set; }
 
@@ -35,7 +48,8 @@ public class BasePlayer : Subject
 
     protected virtual void Awake()
     {
-        PlayerData = new PlayerData();
+        _maxHealth = _startingHealth;
+        PlayerData = new PlayerData(_startingHealth, _projectileDamage, _magicDamage, _meleeDamage, 100);
 
         Attach(NarratorManager.Instance);
     }
@@ -77,42 +91,111 @@ public class BasePlayer : Subject
             NarratorManager.Instance.AddTextToQueue(playerType.ToString() + " has been betrayed!");
         }
     }
+
+    private IEnumerator ProjectileCountdown(GameObject go)
+    {
+        yield return new WaitForSeconds(2);
+
+        if (go)
+            Destroy(go);
+    }
+
+    private IEnumerator ProjectileCooldown() 
+    {
+        canProjectile = false;
+        yield return new WaitForSeconds(_projectileCooldown);
+        canProjectile = true;
+    }
+
+    private IEnumerator MagicCooldown()
+    {
+        canMagic = false;
+        yield return new WaitForSeconds(_magicCooldown);
+        canMagic = true;
+    }
+
+    private IEnumerator MeleeCooldown()
+    {
+        canMelee = false;
+        yield return new WaitForSeconds(_meleeCooldown);
+        canMelee = true;
+    }
+
+    protected virtual IEnumerator HealthDecrement()
+    {
+        yield return new WaitForSeconds(_playerHealthTick);
+        TakeDamage(1, true);
+
+        StartCoroutine(HealthDecrement());
+    }
+
+    private void OnEnable()
+    {
+        StartCoroutine(HealthDecrement());
+    }
+
     public virtual void Attack1() //Ranged
     {
+        if (!canProjectile) return;
         Debug.Log(_playerProjectile);
         GameObject proj = Instantiate(_playerProjectile, transform.position, Quaternion.identity);
 
+        StartCoroutine(ProjectileCountdown(proj));
+
         proj.GetComponent<Rigidbody>().velocity = transform.forward * _projectileSpeed;
+        ProjectileInfo info = proj.AddComponent<ProjectileInfo>();
+        info.damage = PlayerData.Damage;
+
+        StartCoroutine(ProjectileCooldown());
     }
 
     public virtual void Attack2() //Magic
     {
+        if (!canMagic) return;
         if (_magicProjectile == null) return;
 
         GameObject proj = Instantiate(_magicProjectile, transform.position, Quaternion.identity);
 
+        StartCoroutine(ProjectileCountdown(proj));
+
         proj.GetComponent<Rigidbody>().velocity = transform.forward * _projectileSpeed;
+        ProjectileInfo info = proj.AddComponent<ProjectileInfo>();
+        info.damage = PlayerData.MagicDamage;
+
+        StartCoroutine(MagicCooldown());
     }
 
     public virtual void Attack3() //Melee
     {
+        if (!canMelee) return;
         Collider[] colliders = Physics.OverlapSphere(transform.position + (transform.forward * _meleeRange), _meleeRange);
 
         foreach (Collider col in colliders)
         {
-            Debug.Log(col.name);
             if (col.CompareTag("Enemy"))
             {
-                Debug.Log("Hit enemy");
+                col.GetComponent<BaseEnemy>().Damage(PlayerData.MeleeDamage);
             }
         }
+        StartCoroutine(MeleeCooldown());
     }
 
-    public virtual void TakeDamage(float amount)
+    public virtual void TakeDamage(float amount, bool bypassArmor = false)
     {
+        if (amount < 0 && PlayerData.Health >= _maxHealth) return;
+
+        if (!bypassArmor && PlayerData.Armor > 0)
+        {
+            PlayerData.Armor -= amount;
+
+            if (PlayerData.Armor < 0)
+                PlayerData.Armor = 0;
+            return;
+        }
+
+
         PlayerData.Health -= amount;
 
-        Debug.Log(PlayerData.Health);
 
         if (PlayerData.Health < 200 && triggerNarratorHealthDialogue)
         {
@@ -125,7 +208,7 @@ public class BasePlayer : Subject
 
         if (PlayerData.Health <= 0)
         {
-            Debug.Log(gameObject.name + " has died!");
+            PlayerDeath?.Invoke(gameObject);
         }
     }
 
@@ -147,5 +230,11 @@ public class BasePlayer : Subject
         _magicDamage = info.magicDamage;
         _meleeDamage = info.meleeDamage;
         _meleeRange = info.meleeRange;
+    }
+
+    public void Reset()
+    {
+        PlayerData = new PlayerData(_startingHealth, _projectileDamage, _magicDamage, _meleeDamage, 100);
+        StopAllCoroutines();
     }
 }

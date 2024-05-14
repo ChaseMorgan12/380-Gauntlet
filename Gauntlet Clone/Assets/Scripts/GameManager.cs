@@ -19,16 +19,6 @@ public class GameManager : Singleton<GameManager>, IObserver
     [SerializeField] private GameObjectList _levelList;
     [SerializeField] private GameObjectList _pickupList;
 
-    private void CallNarrator()
-    {
-
-    }
-
-    private void SpawnEnemies()
-    {
-
-    }
-
     private void LoadNextLevel()
     {
         GameObject level = GetRandomLevel();

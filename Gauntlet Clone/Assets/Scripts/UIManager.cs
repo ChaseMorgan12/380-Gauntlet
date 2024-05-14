@@ -15,14 +15,30 @@ public class UIManager : Singleton<UIManager>
     public override void Awake()
     {
         base.Awake();
+    }
 
+    public IEnumerator GameOver()
+    {
+        transform.Find("GameOver").gameObject.SetActive(true);
+        yield return new WaitForSeconds(3);
+        Application.Quit();
+    }
+
+    private void OnEnable()
+    {
         PlayerManager.PlayerConnected += PlayerJoining;
+
+        Debug.Log("Enabled!");
         joinUI = transform.GetChild(0).gameObject;
         leaderUI = transform.GetChild(1).gameObject;
     }
 
     private void PlayerJoining(GameObject player)
     {
+        if (joinUI == null)
+        {
+            joinUI = transform.GetChild(0).gameObject;
+        }
         joinUI.SetActive(true);
         _currentPlayer = player;
     }
@@ -70,6 +86,9 @@ public class UIManager : Singleton<UIManager>
         if (playersSelected[index] == true)
         {
             playersSelected[index] = false;
+            trackers[index] = null;
+            joinUI.transform.GetChild(index + 1).GetChild(0).gameObject.SetActive(false);
+            leaderUI.transform.GetChild(index).GetChild(0).gameObject.SetActive(true);
             return true;
         }
         else

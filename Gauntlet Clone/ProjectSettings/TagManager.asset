@@ -11,6 +11,7 @@ TagManager:
   - Potion
   - Door
   - Wall
+  - PlayerProjectile
   layers:
   - Default
   - TransparentFX

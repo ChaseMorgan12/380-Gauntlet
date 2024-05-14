@@ -6,8 +6,8 @@ using static UnityEditor.Experimental.GraphView.GraphView;
 
 /* FILE HEADER
 *  Edited by: Chase Morgan, Conner Zepeda
-*  Last Updated: 05/04/2024
-*  Script Description: Handles behavior for the Theif Enemy
+*  Last Updated: 05/14/2024 -Chase, typo in header
+*  Script Description: Handles behavior for the Thief Enemy
 */
 
 public class Thief : BaseEnemy
@@ -29,9 +29,10 @@ public class Thief : BaseEnemy
 
     private void FixedUpdate()
     {
-        if (PlayerInMeleeRange())
+        if (PlayerInMeleeRange() && canAttack)
         {
             Steal();
+            StartCoroutine(AttackCooldown());
         }
         else 
         {
@@ -81,6 +82,6 @@ public class Thief : BaseEnemy
         _player.GetComponent<BasePlayer>().TakeDamage(damage);
 
         //Steal keys, score, or multiplayer bonus multiplier
-
+        _player.GetComponent<BasePlayer>().IncreasePoints((int)-damage);
     }
 }
