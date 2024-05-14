@@ -4,7 +4,7 @@ using UnityEngine;
 using TMPro;
 
 /* FILE HEADER
-*  Edited by: Conner Zepeda
+*  Edited by: Conner Zepeda , Chase Morgan
 *  Last Updated: 05/13/2024
 *  Script Description: Manages the behavior for the narrator, putting text onto the screen when needed
 */
@@ -12,38 +12,37 @@ using TMPro;
 public class NarratorManager : Singleton<NarratorManager>, IObserver
 {
     [SerializeField]
-    private TextMeshProUGUI NarrartorTMP;
+    private TextMeshProUGUI narrartorTMP;
 
     //Queue
-    private Queue<string> textQueue = new Queue<string>();
+    private readonly Queue<string> textQueue = new Queue<string>();
 
-    private string NarratorText;
+    private string narratorText;
 
     private int dialogueIndex;
-
-    private bool queueIsEmpty;
 
     private PlayerType referencePlayerType;
 
     public void Notify(Subject subject)
     {
-        if (subject.GetComponent<PlayerData>().Health < 200)
+        BasePlayer player = (BasePlayer)subject;
+        if (player.PlayerData.Health < 200)
         {
-            referencePlayerType = ((BasePlayer)subject).playerType;
+            referencePlayerType = player.playerType;
             dialogueIndex = Random.Range(0, 3); //runs through dialogue options
             if (dialogueIndex == 0) 
             {
-                NarratorText = referencePlayerType.ToString() + "'s life force is running out";
+                narratorText = referencePlayerType.ToString() + "'s life force is running out";
             }
             else if (dialogueIndex == 1)
             {
-                NarratorText = referencePlayerType.ToString() + " needs food";
+                narratorText = referencePlayerType.ToString() + " needs food";
             }
             else
             {
-                NarratorText = referencePlayerType.ToString() + " is about to die!";
+                narratorText = referencePlayerType.ToString() + " is about to die!";
             }
-            UpdateNarratorText(NarratorText);
+            AddTextToQueue(narratorText);
         }
     }
 
@@ -57,26 +56,28 @@ public class NarratorManager : Singleton<NarratorManager>, IObserver
     // Start is called before the first frame update
     void Start()
     {
-        NarrartorTMP.gameObject.SetActive(false);
-        //StartCoroutine(NarratorDialogueQueue());
+        narrartorTMP.gameObject.SetActive(false);
+        StartCoroutine(NarratorDialogueQueue());
     }
 
-    // Update is called once per frame
-    void Update()
+    private IEnumerator NarratorDialogueQueue()
     {
-        if (textQueue.Count < 0)
-        {
-            queueIsEmpty = false;
-        }
+        yield return new WaitUntil(() => textQueue.Count > 0);
+
+        narrartorTMP.gameObject.SetActive(true);
+        narrartorTMP.text = textQueue.Dequeue();
+
+        yield return new WaitForSeconds(3);
+
+        narrartorTMP.gameObject.SetActive(false);
+
+        StartCoroutine(NarratorDialogueQueue());
     }
 
-    private void UpdateNarratorText(string desiredText)
+    public void AddTextToQueue(string desiredText)
     {
+        if (textQueue.Contains(desiredText)) return;
+
         textQueue.Enqueue(desiredText);
     }
-
-    /*private IEnumerator NarratorDialogueQueue()
-    {
-        //yield return new WaitUntil(!queueIsEmpty);
-    }*/
 }

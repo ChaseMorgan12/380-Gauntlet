@@ -391,6 +391,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: ManagerContainers
       objectReference: {fileID: 0}
+    - target: {fileID: 1403934996275306195, guid: 1d260be599675624b8001e9c31e57c23,
+        type: 3}
+      propertyPath: NarrartorTMP
+      value: 
+      objectReference: {fileID: 6447348521662625143}
+    - target: {fileID: 1403934996275306195, guid: 1d260be599675624b8001e9c31e57c23,
+        type: 3}
+      propertyPath: narrartorTMP
+      value: 
+      objectReference: {fileID: 6447348521662625143}
     - target: {fileID: 8692649843109823168, guid: 1d260be599675624b8001e9c31e57c23,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -519,6 +529,18 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: da6de5263846e71499db16860e4f4183, type: 3}
+--- !u!114 &6447348521662625143 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7990869405513991829, guid: da6de5263846e71499db16860e4f4183,
+    type: 3}
+  m_PrefabInstance: {fileID: 6447348521662625142}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &6979984104289336102
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -31,9 +31,13 @@ public class BasePlayer : Subject
 
     public PlayerData PlayerData { get; protected set; }
 
+    private bool triggerNarratorHealthDialogue = true;
+
     protected virtual void Awake()
     {
         PlayerData = new PlayerData();
+
+        Attach(NarratorManager.Instance);
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -59,13 +63,18 @@ public class BasePlayer : Subject
     }
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Door"))
+        if (collision.transform.CompareTag("Door"))
         {
             if (this.PlayerData.Keys > 0)
             {
                 this.PlayerData.Keys--;
                 Destroy(collision.gameObject);
             }
+        }
+        else if (collision.transform.CompareTag("PlayerProjectile"))
+        {
+            Destroy(collision.gameObject);
+            NarratorManager.Instance.AddTextToQueue(playerType.ToString() + " has been betrayed!");
         }
     }
     public virtual void Attack1() //Ranged
@@ -105,13 +114,18 @@ public class BasePlayer : Subject
 
         Debug.Log(PlayerData.Health);
 
+        if (PlayerData.Health < 200 && triggerNarratorHealthDialogue)
+        {
+            triggerNarratorHealthDialogue = false;
+            Notify();
+        }
+
+        if (PlayerData.Health >= 200)
+            triggerNarratorHealthDialogue = true;
+
         if (PlayerData.Health <= 0)
         {
             Debug.Log(gameObject.name + " has died!");
-        }
-        else if (PlayerData.Health < 200)
-        {
-            Notify();
         }
     }
 

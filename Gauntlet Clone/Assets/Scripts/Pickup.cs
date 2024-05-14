@@ -24,15 +24,19 @@ public class Pickup : MonoBehaviour
             {
                 case PickupType.Food:
                     player.TakeDamage(-healthGiven);
+                    NarratorManager.Instance.AddTextToQueue(player.playerType.ToString() + " has found food... maybe they won't die after all!");
                     break;
                 case PickupType.Potion:
+                    NarratorManager.Instance.AddTextToQueue("The cleansing has begun.");
                     GameManager.Instance.ClearEnemies();
                     break;
                 case PickupType.Key:
+                    NarratorManager.Instance.AddTextToQueue(player.playerType.ToString() + " has found the key!");
                     player.PlayerData.Keys++;
                     break;
                 case PickupType.Treasure:
                     player.IncreasePoints(treasureAmount);
+                    NarratorManager.Instance.AddTextToQueue(player.playerType.ToString() + " has found treasure!");
                     break;
                 default:
                     break;

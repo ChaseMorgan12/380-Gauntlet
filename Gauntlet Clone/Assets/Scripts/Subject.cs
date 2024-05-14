@@ -4,8 +4,8 @@ using UnityEngine;
 
 /* FILE HEADER
 *  Edited by: Chase Morgan
-*  Last Updated: 00/00/0000
-*  Script Description:
+*  Last Updated: 05/13/2024
+*  Script Description: Handles the Subject class that is apart of the Observer Pattern
 */
 
 public abstract class Subject : MonoBehaviour
@@ -14,16 +14,17 @@ public abstract class Subject : MonoBehaviour
 
     protected void Attach(IObserver observer)
     {
-
+        observers.Add(observer);
     }
 
     protected void Detach(IObserver observer)
     {
-
+        observers.Remove(observer);
     }
 
     protected void Notify()
     {
-
+        foreach (IObserver observer in observers)
+            observer.Notify(this);
     }
 }

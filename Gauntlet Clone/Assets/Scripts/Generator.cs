@@ -72,6 +72,7 @@ public class Generator : Damageable
 
         if (Health <= 0)
         {
+            NarratorManager.Instance.AddTextToQueue(enemy.name + " Generator has been destroyed!");
             Destroy(gameObject);
         }
     }

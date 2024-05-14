@@ -5,7 +5,7 @@ using UnityEngine;
 
 /* FILE HEADER
 *  Edited by: Chase Morgan
-*  Last Updated: 05/03/2024
+*  Last Updated: 05/13/2024
 *  Script Description: Handles exiting the level
 */
 
@@ -18,6 +18,10 @@ public class Exit : MonoBehaviour
     {
         Debug.Log(other.gameObject);
         if (other.CompareTag("Player"))
+        {
             OnExit?.Invoke();
+            NarratorManager.Instance.AddTextToQueue(other.GetComponent<BasePlayer>().playerType.ToString() + " has found the eixt! Extra points for them!");
+            other.GetComponent<BasePlayer>().IncreasePoints(250);
+        }
     }
 }
