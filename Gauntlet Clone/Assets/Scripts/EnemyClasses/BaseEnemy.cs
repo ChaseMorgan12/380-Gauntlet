@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,6 +19,9 @@ public abstract class BaseEnemy : Damageable
     protected bool canAttack = true;
 
     protected GameObject _player;
+
+    public static event Action<GameObject> enemyDied;
+    
     private void OnTriggerEnter(Collider other)
     {
         //Projectiles
@@ -65,6 +69,7 @@ public abstract class BaseEnemy : Damageable
             if (_player)
                 _player.GetComponent<BasePlayer>().IncreasePoints(scoreGiven);
             Destroy(gameObject);
+            enemyDied?.Invoke(gameObject);
         }
     }
 }

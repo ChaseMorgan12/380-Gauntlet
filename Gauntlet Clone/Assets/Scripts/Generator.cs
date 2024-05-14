@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,6 +19,9 @@ public class Generator : Damageable
     private bool canSpawn = false;
 
     private readonly List<GameObject> enemies = new();
+
+    public static event Action<GameObject> enemySpawned;
+    
 
     void OnBecameVisible()
     {
@@ -44,9 +48,10 @@ public class Generator : Damageable
 
         if (enemies.Count < maxSpawnAmount)
         {
-            Vector3 spawnPos = transform.position + (transform.forward * transform.localScale.magnitude + new Vector3(Random.Range(-.500f, .500f), 0, Random.Range(-.500f, .500f)));
+            Vector3 spawnPos = transform.position + (transform.forward * transform.localScale.magnitude + new Vector3(UnityEngine.Random.Range(-.500f, .500f), 0, UnityEngine.Random.Range(-.500f, .500f)));
 
             GameObject spawnedEnemy = Instantiate(enemy, spawnPos, Quaternion.identity, transform.parent);
+            enemySpawned?.Invoke(spawnedEnemy);
             enemies.Add(spawnedEnemy);
         }
         else
