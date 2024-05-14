@@ -34,6 +34,7 @@ public class Death : BaseEnemy
         detectionRange = 25f;
         moveRange = 0.1f;
         damage = 75f; //damage should be low since it can sap for every half second
+        _health = 10000000000000000; 
     }
 
     private void FixedUpdate()
@@ -76,6 +77,14 @@ public class Death : BaseEnemy
         yield return new WaitForSeconds(.5f);//Saps health fast, every half second
         canSap = true;
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("PlayerProjectile"))
+        {
+            GotHit();
+        }
+    }
     private void GotHit()//The full cycle is, starting from default: 1000, 2000, 1000, 4000, 2000, 6000, 8000, and then back to the default 1000. 
     {
         if (hitIndex == 7)
@@ -114,13 +123,10 @@ public class Death : BaseEnemy
                 break;
         }
     }
-    private void PotionHit() 
+    private void OnDestroy() 
     {
+        Pickup.lastPotionPlayer.GetComponent<BasePlayer>().IncreasePoints(pointValue);
         //Gives points based on how much it has been hit
-
         _player.GetComponent<BasePlayer>().IncreasePoints(pointValue);
-
-        //Dies
-        Destroy(gameObject);
     }
 }

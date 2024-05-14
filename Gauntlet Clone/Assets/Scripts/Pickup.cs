@@ -14,6 +14,8 @@ public class Pickup : MonoBehaviour
 
     [SerializeField] private float healthGiven = 10;
     [SerializeField] private int treasureAmount = 100;
+
+    public static GameObject lastPotionPlayer;
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.transform.CompareTag("Player"))
@@ -29,6 +31,7 @@ public class Pickup : MonoBehaviour
                 case PickupType.Potion:
                     NarratorManager.Instance.AddTextToQueue("The cleansing has begun.");
                     GameManager.Instance.ClearEnemies();
+                    lastPotionPlayer = collision.gameObject;
                     break;
                 case PickupType.Key:
                     NarratorManager.Instance.AddTextToQueue(player.playerType.ToString() + " has found the key!");
