@@ -215,6 +215,12 @@ public class BasePlayer : Subject
     public virtual void IncreasePoints(int amount)
     {
         PlayerData.CurrentScore += amount;
+
+        if (PlayerData.CurrentScore <= 0)
+        {
+            PlayerData.CurrentScore = 0;
+            NarratorManager.Instance.AddTextToQueue(playerType.ToString() + " is very poor.");
+        }
     }
 
     /// <summary>

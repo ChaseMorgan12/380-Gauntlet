@@ -11,7 +11,7 @@ using UnityEngine;
 public abstract class BaseEnemy : Damageable
 {
     [SerializeField] protected int scoreGiven = 100;
-    protected float damage, speed, attackRange, attackCooldown, detectionRange, moveRange;
+    protected float damage = 50, speed, attackRange, attackCooldown = 2, detectionRange, moveRange;
 
     protected int enemyLevel;
 
@@ -35,7 +35,7 @@ public abstract class BaseEnemy : Damageable
         }
     }
 
-    protected virtual IEnumerator AttackCooldown()
+    protected IEnumerator AttackCooldown()
     {
         canAttack = false;
         yield return new WaitForSeconds(attackCooldown);
@@ -49,6 +49,7 @@ public abstract class BaseEnemy : Damageable
         {
             if (hitColliders[i].CompareTag("Player"))
             {
+                _player = hitColliders[i].gameObject;
                 transform.LookAt(hitColliders[i].transform);
                 transform.position = Vector3.MoveTowards(transform.position, hitColliders[i].transform.position, moveRange);
                 return;
