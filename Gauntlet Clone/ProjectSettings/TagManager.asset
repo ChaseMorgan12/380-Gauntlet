@@ -9,6 +9,7 @@ TagManager:
   - Fireball
   - SorcererSpell
   - Potion
+  - Door
   layers:
   - Default
   - TransparentFX

@@ -34,7 +34,7 @@ public class Death : BaseEnemy
         speed = .5f; //Moves slower than other enemies????
         detectionRange = 25f;
         moveRange = 0.1f;
-        damage = 10f;
+        damage = 75f; //damage should be low since it can sap for every half second
     }
 
     private void FixedUpdate()
@@ -74,7 +74,7 @@ public class Death : BaseEnemy
     {
         canSap = false;
         SapHealth();
-        yield return new WaitForSeconds(.5f);//Saps health fast
+        yield return new WaitForSeconds(.5f);//Saps health fast, every half second
         canSap = true;
     }
     private void GotHit()//The full cycle is, starting from default: 1000, 2000, 1000, 4000, 2000, 6000, 8000, and then back to the default 1000. 
@@ -118,9 +118,8 @@ public class Death : BaseEnemy
     private void PotionHit() 
     {
         //Gives points based on how much it has been hit
-        //PlayerData.Score += pointValue
 
-        //_player.GetComponent<BasePlayer>().IncreasePoints(pointValue);
+        _player.GetComponent<BasePlayer>().IncreasePoints(pointValue);
 
         //Dies
         Destroy(gameObject);

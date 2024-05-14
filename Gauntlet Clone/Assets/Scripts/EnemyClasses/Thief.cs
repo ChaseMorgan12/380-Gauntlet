@@ -21,7 +21,7 @@ public class Thief : BaseEnemy
 
     private void Awake()
     {
-        damage = 10;
+        damage = 100;
         speed = 10f;
         detectionRange = 25f;
         moveRange = 0.1f;
@@ -77,11 +77,10 @@ public class Thief : BaseEnemy
     }
     private void Steal()
     {
-        //Attack for 10 damage
+        //Attack for 100 damage
         _player.GetComponent<BasePlayer>().TakeDamage(damage);
 
-        //Steal upgrade potions first
-        //If no upgrade potions, steal potions, keys, score, or multiplayer bonus multiplier
+        //Steal keys, score, or multiplayer bonus multiplier
 
     }
 }
