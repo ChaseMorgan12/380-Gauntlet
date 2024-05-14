@@ -47,7 +47,7 @@ public class UIManager : Singleton<UIManager>
     {
         yield return new WaitUntil(() => player.GetComponent<BasePlayer>() != null);
 
-        trackers[PlayerInputManager.instance.playerCount - 1] = new LeaderboardTracker(leaderUI.transform.GetChild(PlayerInputManager.instance.playerCount - 1).GetChild(1).gameObject,
+        trackers[(int)player.GetComponent<BasePlayer>().playerType] = new LeaderboardTracker(leaderUI.transform.GetChild(PlayerInputManager.instance.playerCount - 1).GetChild(1).gameObject,
                                                                                        player.GetComponent<BasePlayer>().PlayerData,
                                                                                        player.GetComponent<BasePlayer>().playerType);
     }
@@ -85,8 +85,8 @@ public class UIManager : Singleton<UIManager>
 
         if (playersSelected[index] == true)
         {
-            playersSelected[index] = false;
-            trackers[index] = null;
+           // playersSelected[index] = false;
+            //trackers[index] = null;
             joinUI.transform.GetChild(index + 1).GetChild(0).gameObject.SetActive(false);
             leaderUI.transform.GetChild(index).GetChild(0).gameObject.SetActive(true);
             return true;
@@ -95,5 +95,10 @@ public class UIManager : Singleton<UIManager>
         {
             return false;
         }
+    }
+
+    public void UpdateTracker(BasePlayer player)
+    {
+        trackers[(int)player.playerType].UpdateTracker(player.PlayerData);
     }
 }

@@ -42,4 +42,11 @@ public class LeaderboardTracker
         _armorText.text = "Armor: " + _playerData.Armor.ToString();
         _scoreText.text = "Score: " + _playerData.CurrentScore.ToString();
     }
+
+    public void UpdateTracker(PlayerData playerData)
+    {
+        _playerData = playerData;
+        _playerData.StatsChanged += UpdateLeaderboard;
+        UpdateLeaderboard();
+    }
 }

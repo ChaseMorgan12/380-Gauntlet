@@ -248,6 +248,7 @@ public class BasePlayer : Subject
     public void Reset()
     {
         PlayerData = new PlayerData(_startingHealth, _projectileDamage, _magicDamage, _meleeDamage, 100);
+        UIManager.Instance.UpdateTracker(this);
         StopAllCoroutines();
     }
 }
