@@ -1,12 +1,9 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 
 /* FILE HEADER
-*  Edited by: Chase Morgan
-*  Last Updated: 04/11/2024
+*  Edited by: Chase Morgan, Conner Zepeda
+*  Last Updated: 05/14/2024
 *  Script Description: Handles the game manager that manages the game
 */
 
@@ -18,6 +15,9 @@ public class GameManager : Singleton<GameManager>, IObserver
 
     [SerializeField] private GameObjectList _levelList;
     [SerializeField] private GameObjectList _pickupList;
+
+    private List<GameObject> _spawnedEnemies = new List<GameObject>();
+
 
     private void LoadNextLevel()
     {
@@ -56,14 +56,14 @@ public class GameManager : Singleton<GameManager>, IObserver
 
     private GameObject GetRandomLevel()
     {
-        GameObject go = _levelList.list[Random.Range(0, _levelList.list.Length - 1)];
+        GameObject go = _levelList.list[Random.Range(0, _levelList.list.Length)];
 
         return go;
     }
 
     private GameObject GetRandomPickup()
     {
-        GameObject go = _pickupList.list[Random.Range(0, _pickupList.list.Length - 1)];
+        GameObject go = _pickupList.list[Random.Range(0, _pickupList.list.Length)];
 
         return go;
     }
@@ -82,8 +82,10 @@ public class GameManager : Singleton<GameManager>, IObserver
         {
             _currentLevel = GameObject.Find("LevelA");
         }
+        Generator.enemySpawned += EnemySpawned;
+        BaseEnemy.enemyDied += EnemyDied;
     }
-
+    
     public void Notify(Subject subject)
     {
 
@@ -91,6 +93,18 @@ public class GameManager : Singleton<GameManager>, IObserver
 
     public void ClearEnemies()
     {
+        for (int i = 0; i < _spawnedEnemies.Count; i++)
+        {
+            Destroy(_spawnedEnemies[i]);
+        }
         Debug.Log("Clearing enemies");
+    }
+    private void EnemySpawned(GameObject newEnemy)
+    {
+        _spawnedEnemies.Add(newEnemy);
+    }
+    private void EnemyDied(GameObject newEnemy)
+    {
+        _spawnedEnemies.Remove(newEnemy);
     }
 }
