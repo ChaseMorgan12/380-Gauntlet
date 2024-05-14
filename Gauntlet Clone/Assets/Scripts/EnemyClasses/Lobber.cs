@@ -19,7 +19,7 @@ public class Lobber : BaseEnemy
 
     private void Awake()
     {
-        damage = 3;
+        damage = 300;
         speed = 2f;
         detectionRange = 25f;
         moveRange = 0.1f;

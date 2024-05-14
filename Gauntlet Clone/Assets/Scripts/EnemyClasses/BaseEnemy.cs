@@ -18,7 +18,7 @@ public abstract class BaseEnemy : Damageable
     private void OnTriggerEnter(Collider other)
     {
         //Projectiles
-        if (other.CompareTag("Rock")) //Replace rock with something PLayer Projectiles
+        if (other.CompareTag("PlayerProjectile")) //Replace rock with something PLayer Projectiles
         {
             Destroy(other.gameObject);
             Destroy(gameObject);

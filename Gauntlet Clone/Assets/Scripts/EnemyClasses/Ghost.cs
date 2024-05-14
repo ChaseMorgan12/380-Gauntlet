@@ -17,14 +17,14 @@ public class Ghost : BaseEnemy
         switch (enemyLevel)
         {
             case 1:
-                damage = 10;
+                damage = 100;
                 break;
             case 2:
-                damage = 20;
+                damage = 200;
 
                 break;
             case 3:
-                damage = 30;
+                damage = 300;
                 break;
             default:
                 break;

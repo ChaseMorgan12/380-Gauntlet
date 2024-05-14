@@ -14,21 +14,7 @@ public class BasePlayer : Subject
 {
     public PlayerType playerType;
 
-    private int _keys = 0;
-
-
-    public int Keys
-    {
-        get
-        {
-            return _keys;
-        }
-        set
-        {
-            _keys = value;
-            Debug.Log(_keys);
-        }
-    }
+    public event Action PlayerLowHealth;
 
     [Header("Projectile Info")]
     [SerializeField] protected GameObject _playerProjectile;
@@ -52,24 +38,34 @@ public class BasePlayer : Subject
     private void OnTriggerEnter(Collider other)
     {
         //Enemy Projectiles
-       
         if (other.CompareTag("Rock"))
         {
-            TakeDamage(3);
+            TakeDamage(30);
             Destroy(other.gameObject);
             Debug.Log("Hit by rock, Damage: 3");
         }
         else if (other.CompareTag("Fireball"))
         {
-            TakeDamage(5);
+            TakeDamage(50);
             Destroy(other.gameObject);
             Debug.Log("Hit by fireball, Damage: 5");
         }
         else if (other.CompareTag("SorcererSpell"))
         {
-            TakeDamage(7);
+            TakeDamage(70);
             Destroy(other.gameObject);
             Debug.Log("Hit by SorcererSpell, Damage: 7");
+        }
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Door"))
+        {
+            if (this.PlayerData.Keys > 0)
+            {
+                this.PlayerData.Keys--;
+                Destroy(collision.gameObject);
+            }
         }
     }
     public virtual void Attack1() //Ranged
@@ -112,6 +108,10 @@ public class BasePlayer : Subject
         if (PlayerData.Health <= 0)
         {
             Debug.Log(gameObject.name + " has died!");
+        }
+        else if (PlayerData.Health < 200)
+        {
+            Notify();
         }
     }
 

@@ -25,14 +25,14 @@ public class Demon : BaseEnemy
         switch (enemyLevel)
         {
             case 1:
-                damage = 5;
+                damage = 50;
                 break;
             case 2:
-                damage = 8;
+                damage = 80;
 
                 break;
             case 3:
-                damage = 10;
+                damage = 100;
                 break;
             default:
                 break;

@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /* FILE HEADER
-*  Edited by: Chase Morgan
-*  Last Updated: 04/30/2024
+*  Edited by: Chase Morgan, Conner Zepeda
+*  Last Updated: 05/13/2024
 *  Script Description: Handles the pickup mechanics
 */
 
@@ -29,7 +29,7 @@ public class Pickup : MonoBehaviour
                     GameManager.Instance.ClearEnemies();
                     break;
                 case PickupType.Key:
-                    player.Keys++;
+                    player.PlayerData.Keys++;
                     break;
                 case PickupType.Treasure:
                     player.IncreasePoints(treasureAmount);
