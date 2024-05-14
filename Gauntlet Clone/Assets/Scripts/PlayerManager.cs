@@ -127,7 +127,7 @@ public class PlayerManager : Singleton<PlayerManager>
         if (allDead)
         {
             StartCoroutine(UIManager.Instance.GameOver());
-            return;
+            //return;
 
             /*for (int index = 0; index < players.Count; index++)
             {

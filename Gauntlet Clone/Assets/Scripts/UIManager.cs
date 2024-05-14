@@ -20,6 +20,7 @@ public class UIManager : Singleton<UIManager>
     public IEnumerator GameOver()
     {
         transform.Find("GameOver").gameObject.SetActive(true);
+        Debug.Log("Game Over!");
         yield return new WaitForSeconds(3);
         Application.Quit();
     }
