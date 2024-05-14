@@ -14,6 +14,7 @@ public class BasePlayer : Subject
     public PlayerType playerType;
 
     private int _keys = 0;
+    private int _potions = 0;
 
     public int Keys
     {

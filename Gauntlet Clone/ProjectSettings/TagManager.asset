@@ -8,6 +8,7 @@ TagManager:
   - Enemy
   - Fireball
   - SorcererSpell
+  - Potion
   layers:
   - Default
   - TransparentFX
