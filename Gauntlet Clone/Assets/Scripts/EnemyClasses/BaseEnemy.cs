@@ -14,6 +14,8 @@ public abstract class BaseEnemy : Damageable
 
     protected int enemyLevel;
 
+    protected bool canAttack = true;
+
     protected GameObject _player;
     private void OnTriggerEnter(Collider other)
     {
@@ -21,7 +23,8 @@ public abstract class BaseEnemy : Damageable
         if (other.CompareTag("PlayerProjectile")) //Replace rock with something PLayer Projectiles
         {
             Destroy(other.gameObject);
-            Destroy(gameObject);
+
+            Damage(other.GetComponent<ProjectileInfo>().damage);
         }
         else if (other.CompareTag("Fireball")) //Can die to other enemy's fireball
         {
@@ -30,6 +33,14 @@ public abstract class BaseEnemy : Damageable
             Debug.Log("Hit by fireball, Damage: 5");
         }
     }
+
+    protected virtual IEnumerator AttackCooldown()
+    {
+        canAttack = false;
+        yield return new WaitForSeconds(attackCooldown);
+        canAttack = true;
+    }
+
     public virtual void MoveTowardsPlayer()
     {
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, detectionRange);
@@ -44,6 +55,11 @@ public abstract class BaseEnemy : Damageable
     }
     public override void Damage(float amount)
     {
-        throw new System.NotImplementedException();
+        _health -= amount;
+
+        if (Health <= 0)
+        {
+            Destroy(gameObject);
+        }
     }
 }

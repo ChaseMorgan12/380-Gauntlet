@@ -469,11 +469,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: CanvasContainer
       objectReference: {fileID: 0}
-    - target: {fileID: 3311995058677538766, guid: da6de5263846e71499db16860e4f4183,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6851101840700465858, guid: da6de5263846e71499db16860e4f4183,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -523,6 +518,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8939882550168974997, guid: da6de5263846e71499db16860e4f4183,
+        type: 3}
+      propertyPath: m_MatchWidthOrHeight
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

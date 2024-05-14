@@ -44,10 +44,11 @@ public class Demon : BaseEnemy
 
     private void FixedUpdate()
     {
-        if (PlayerInBiteRange())
+        if (PlayerInBiteRange() && canAttack)
         {
             Debug.Log("Bitting Player");
             _player.GetComponent<BasePlayer>().TakeDamage(damage);
+            StartCoroutine(AttackCooldown());
 
         }
         else if (PlayerInFireballRange())

@@ -13,11 +13,21 @@ using UnityEngine.InputSystem;
 public class PlayerData
 {
     public event Action StatsChanged;
-    private float _health, _damage, _armor, _currentScore, _keys;
+    private float _health, _damage, _magicDamage, _meleeDamage, _armor;
+    private int _currentScore, _keys;
+
+    public PlayerData(float health, float damage, float magic, float melee, float armor)
+    {
+        _health = health;
+        _damage = damage;
+        _magicDamage = magic;
+        _meleeDamage = melee;
+        _armor = armor;
+    }
     
     public float Health
     {
-        get 
+        get
         {
             return _health;
         }
@@ -41,6 +51,32 @@ public class PlayerData
         }
     }
 
+    public float MagicDamage
+    {
+        get
+        {
+            return _magicDamage;
+        }
+        set
+        {
+            _magicDamage = value;
+            StatsChanged?.Invoke();
+        }
+    }
+
+    public float MeleeDamage
+    {
+        get
+        {
+            return _meleeDamage;
+        }
+        set
+        {
+            _meleeDamage = value;
+            StatsChanged?.Invoke();
+        }
+    }
+
     public float Armor
     {
         get
@@ -54,7 +90,7 @@ public class PlayerData
         }
     }
 
-    public float CurrentScore
+    public int CurrentScore
     {
         get
         {
@@ -66,7 +102,7 @@ public class PlayerData
             StatsChanged?.Invoke();
         }
     }
-    public float Keys
+    public int Keys
     {
         get
         {

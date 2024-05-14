@@ -69,22 +69,22 @@ public class PlayerController : MonoBehaviour
                 case Vector2 when moveValue.normalized == new Vector2(Mathf.Sqrt(.5f), Mathf.Sqrt(.5f)):
                     //Debug.Log("Angled Right");
                     transform.rotation = Quaternion.Euler(0, 45, 0);
-                    _ignoreNextInput = true; //Ignore next input because there are two buttons pressed at the same time which leads to this firing twice
+                    //_ignoreNextInput = true; //Ignore next input because there are two buttons pressed at the same time which leads to this firing twice
                     break;
                 case Vector2 when moveValue.normalized == new Vector2(Mathf.Sqrt(.5f), -Mathf.Sqrt(.5f)):
                     //Debug.Log("Angled Negative Right");
                     transform.rotation = Quaternion.Euler(0, 135, 0);
-                    _ignoreNextInput = true;
+                    //_ignoreNextInput = true;
                     break;
                 case Vector2 when moveValue.normalized == new Vector2(-Mathf.Sqrt(.5f), Mathf.Sqrt(.5f)):
                     // Debug.Log("Angled Left");
                     transform.rotation = Quaternion.Euler(0, -45, 0);
-                    _ignoreNextInput = true;
+                    //_ignoreNextInput = true;
                     break;
                 case Vector2 when moveValue.normalized == new Vector2(-Mathf.Sqrt(.5f), -Mathf.Sqrt(.5f)):
                     //Debug.Log("Angled Negative Left");
                     transform.rotation = Quaternion.Euler(0, -135, 0);
-                    _ignoreNextInput = true;
+                    //_ignoreNextInput = true;
                     break;
                 default:
                     Debug.LogWarning("No movement direction matched the input, ignoring"); //Just in case (there really should never be a situation where this happens, unless we f up)
