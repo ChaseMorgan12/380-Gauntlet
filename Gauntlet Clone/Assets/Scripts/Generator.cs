@@ -15,7 +15,21 @@ public class Generator : Damageable
     [SerializeField, Range(0.25f, 30f)] private float spawnInterval = 1f;
     [SerializeField, Range(1, 100)] private int maxSpawnAmount = 25;
 
+    private bool canSpawn = false;
+
     private readonly List<GameObject> enemies = new();
+
+    void OnBecameVisible()
+    {
+        Debug.Log("Visible");
+        canSpawn = true;
+    }
+
+    void OnBecameInvisible()
+    {
+        Debug.Log("Invisible");
+        canSpawn = false;
+    }
 
     private void Start()
     {
@@ -26,11 +40,13 @@ public class Generator : Damageable
     {
         yield return new WaitForSeconds(spawnInterval);
 
+        yield return new WaitUntil(() => canSpawn);
+
         if (enemies.Count < maxSpawnAmount)
         {
             Vector3 spawnPos = transform.position + (transform.forward * transform.localScale.magnitude + new Vector3(Random.Range(-.500f, .500f), 0, Random.Range(-.500f, .500f)));
 
-            GameObject spawnedEnemy = Instantiate(enemy, spawnPos, Quaternion.identity);
+            GameObject spawnedEnemy = Instantiate(enemy, spawnPos, Quaternion.identity, transform.parent);
             enemies.Add(spawnedEnemy);
         }
         else

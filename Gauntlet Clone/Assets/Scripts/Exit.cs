@@ -12,12 +12,12 @@ using UnityEngine;
 public class Exit : MonoBehaviour
 {
     [SerializeField] private GameObject nextLevel;
-    public static event Action<GameObject> OnExit;
+    public static event Action OnExit;
 
     private void OnTriggerEnter(Collider other)
     {
         Debug.Log(other.gameObject);
         if (other.CompareTag("Player"))
-            OnExit?.Invoke(nextLevel);
+            OnExit?.Invoke();
     }
 }
