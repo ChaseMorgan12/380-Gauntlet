@@ -35,6 +35,7 @@ public class BasePlayer : Subject
     [SerializeField] protected float _meleeCooldown = 1f;
 
     [Header("Player Stats")]
+    [SerializeField, Min(1)] protected int _startingArmor = 100;
     [SerializeField, Min(1)] protected float _startingHealth = 1000f;
     [SerializeField] protected float _playerHealthTick = 0.25f;
 
@@ -49,7 +50,6 @@ public class BasePlayer : Subject
     protected virtual void Awake()
     {
         _maxHealth = _startingHealth;
-        PlayerData = new PlayerData(_startingHealth, _projectileDamage, _magicDamage, _meleeDamage, 100);
 
         Attach(NarratorManager.Instance);
     }
@@ -230,6 +230,13 @@ public class BasePlayer : Subject
         _magicDamage = info.magicDamage;
         _meleeDamage = info.meleeDamage;
         _meleeRange = info.meleeRange;
+
+        _magicCooldown = info.magicCooldown;
+        _projectileCooldown = info.projectileCooldown;
+        _startingArmor = info.startingArmor;
+        _meleeCooldown = info.meleeCooldown;
+
+        PlayerData = new PlayerData(_startingHealth, _projectileDamage, _magicDamage, _meleeDamage, _startingArmor);
     }
 
     public void Reset()

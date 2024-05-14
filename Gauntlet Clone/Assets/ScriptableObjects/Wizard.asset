@@ -14,10 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerProjectile: {fileID: 6994662270318252375, guid: b14a704f05f80bb47a11eff3a76fc35c,
     type: 3}
-  projectileSpeed: 10
-  projectileDamage: 1
+  projectileSpeed: 25
+  projectileDamage: 3
+  projectileCooldown: 0.25
   magicProjectile: {fileID: 6994662270318252375, guid: 89d90cefa820c9e4da0c0cae0bada6c0,
     type: 3}
-  magicDamage: 1
+  magicDamage: 6
+  magicCooldown: 0.25
   meleeRange: 2
-  meleeDamage: 1
+  meleeDamage: 3
+  meleeCooldown: 1
+  startingArmor: 50

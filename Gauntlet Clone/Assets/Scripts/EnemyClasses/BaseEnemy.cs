@@ -10,6 +10,7 @@ using UnityEngine;
 
 public abstract class BaseEnemy : Damageable
 {
+    [SerializeField] protected int scoreGiven = 100;
     protected float damage, speed, attackRange, attackCooldown, detectionRange, moveRange;
 
     protected int enemyLevel;
@@ -50,6 +51,7 @@ public abstract class BaseEnemy : Damageable
             {
                 transform.LookAt(hitColliders[i].transform);
                 transform.position = Vector3.MoveTowards(transform.position, hitColliders[i].transform.position, moveRange);
+                return;
             }
         }
     }
@@ -59,6 +61,8 @@ public abstract class BaseEnemy : Damageable
 
         if (Health <= 0)
         {
+            if (_player)
+                _player.GetComponent<BasePlayer>().IncreasePoints(scoreGiven);
             Destroy(gameObject);
         }
     }

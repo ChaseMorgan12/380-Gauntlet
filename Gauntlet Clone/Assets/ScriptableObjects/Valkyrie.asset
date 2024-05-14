@@ -16,8 +16,12 @@ MonoBehaviour:
     type: 3}
   projectileSpeed: 10
   projectileDamage: 1
+  projectileCooldown: 1
   magicProjectile: {fileID: 6994662270318252375, guid: 89d90cefa820c9e4da0c0cae0bada6c0,
     type: 3}
   magicDamage: 1
+  magicCooldown: 1
   meleeRange: 2
   meleeDamage: 1
+  meleeCooldown: 1
+  startingArmor: 500
