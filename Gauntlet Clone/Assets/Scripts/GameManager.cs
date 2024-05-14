@@ -60,7 +60,7 @@ public class GameManager : Singleton<GameManager>, IObserver
 
         for (int i = 0; i < players.Length; i++)
         {
-            players[i].transform.position = Vector3.zero + (Vector3.up * (players[i].transform.localScale.y / 2 + 0.05f));
+            players[i].transform.position = Vector3.zero + (Vector3.up * 1.1f);
         }
     }
 
